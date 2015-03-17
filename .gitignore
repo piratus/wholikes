@@ -1,0 +1,10 @@
+*.pyc
+
+.idea/
+
+local.py
+.sass-cache/
+env/
+node_modules/
+static/jspm_packages/
+static/dist/

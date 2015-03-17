@@ -1,0 +1,17 @@
+{
+  "parser": "eslint-babel",
+  "ecmaFeatures": {
+    "jsx": true,
+    "modules": true,
+    "blockBindings": true
+  },
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "rules": {
+    "camelcase": 2,
+    "semi": [2, "always"],
+    "quotes": [2, "single"]
+  }
+}

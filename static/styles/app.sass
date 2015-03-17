@@ -1,0 +1,126 @@
+@import "foundation/normalize"
+
+@import "foundation/settings"
+
+@import "foundation/components/type"
+@import "foundation/components/inline-lists"
+@import "foundation/components/grid"
+@import "foundation/components/buttons"
+@import "foundation/components/top-bar"
+@import "foundation/components/sub-nav"
+
+body
+  margin-top: $topbar-height + 5px
+
+.top-bar
+  .name
+    color: $topbar-link-color
+    padding-top: 4px
+    padding-left: 8px
+    padding-right: 8px
+
+  button, .button
+    top: 2px
+
+.sub-nav
+  @include sub-nav($font-size: rem-calc(12))
+  dt
+    margin-left: 0
+  dd
+    margin-left: rem-calc(5)
+
+.login-view
+  @include grid-row()
+  .login-panel
+    margin-top: 10%
+    @include grid-column($columns: 4, $center: true)
+    a
+      @include button($padding: $button-lrg, $full-width: true, $radius: true)
+
+.main-container
+  @include grid-row()
+
+  .user-list
+    @include grid-column(7)
+
+  .photo-list
+    @include grid-column(5)
+
+.photo-list ul
+  margin: 0
+
+  .photo
+    list-style: none
+    display: inline-block
+    position: relative
+    opacity: .5
+    border-radius: $global-radius
+    margin-right: 3px
+    margin-bottom: 3px
+
+    cursor: pointer
+
+    &.selected
+      outline: 2px solid $primary-color
+      .likes
+        background-color: $primary-color
+
+    .likes
+      position: absolute
+      bottom: 0
+      right: 0
+      background-color: $oil
+      color: $white
+      font-size: 12px
+      padding: 0 4px
+      text-shadow: 0 0 1px $black
+
+    &.with-data
+      opacity: 1
+
+.user-list ul
+  margin: 0
+
+  .user
+    list-style: none
+    display: block
+    float: left
+    position: relative
+
+    margin-right: 3px
+    margin-bottom: 3px
+    padding-left: 30px
+
+    box-sizing: content-box
+    background-color: $iron
+    border-radius: $global-radius
+    height: 24px
+    overflow: hidden
+    line-height: 24px
+
+    cursor: pointer
+
+    &.selected
+      background-color: $primary-color
+
+    img
+      position: absolute
+      top: 0
+      left: 0
+      width: 24px
+      height: 24px
+
+    .name
+      display: block
+      float: left
+      height: 24px
+
+    .likes
+      display: block
+      float: left
+      height: 24px
+      padding: 0 6px
+      margin-left: 6px
+      background-color: $steel
+      color: $white
+      font-size: 90%
