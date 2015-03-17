@@ -37,6 +37,14 @@ body
     a
       @include button($padding: $button-lrg, $full-width: true, $radius: true)
 
+@media #{$small-only}
+  .login-view
+    .login-panel
+      @include grid-column($columns: 10, $center: true)
+      a
+        padding-top: 30px
+        padding-bottom: 30px
+
 .main-container
   @include grid-row()
 
@@ -45,6 +53,15 @@ body
 
   .photo-list
     @include grid-column(5)
+
+
+@media #{$small-only}
+  .main-container
+    .user-list
+      @include grid-column(12)
+
+    .photo-list
+      @include grid-column(12)
 
 .photo-list ul
   margin: 0
