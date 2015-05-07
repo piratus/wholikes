@@ -5,8 +5,6 @@ import {flux} from 'flux';
 export class TopBar extends React.Component {
 
   render() {
-    const actions = flux.actions;
-
     return <div className="top-bar">
       <ul className="title-area">
         <li className="name">
@@ -20,7 +18,7 @@ export class TopBar extends React.Component {
           <li><a href="/logout">Logout</a></li>
         </ul>
       </section>
-    </div>
+    </div>;
   }
 
 }

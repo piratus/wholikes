@@ -32,7 +32,8 @@ User.defaultProps = {
 
 export class UserList extends React.Component {
 
-  constructor() {
+  constructor(props) {
+    super(props);
     this.state = {
       sorting: 'likes'
     };
@@ -40,7 +41,7 @@ export class UserList extends React.Component {
 
   handleSort(sorting, event) {
     event.preventDefault();
-    this.setState({sorting})
+    this.setState({sorting});
   }
 
   render() {
@@ -71,7 +72,7 @@ export class UserList extends React.Component {
                 onClick={event => this.props.onSelect(user, event.metaKey)} />
         ).toArray()}
       </ul>
-    </div>
+    </div>;
   }
 }
 

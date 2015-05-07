@@ -11,11 +11,11 @@ export class PhotoActions extends Flux.Actions {
     var request = {count: 30};
 
     if (this.maxId) {
-      request['max_id'] = this.maxId;
+      request.max_id = this.maxId; // eslint-disable-line camelcase
     }
 
     client.fetch(RECENT_MEDIA_URL, request).then(({data, pagination}) => {
-      this.maxId = pagination['next_max_id'];
+      this.maxId = pagination.next_max_id;
       this.dispatch('fetch', data);
       data.forEach(this.fetchLikes.bind(this));
     });
@@ -23,8 +23,8 @@ export class PhotoActions extends Flux.Actions {
 
   fetchLikes({id}) {
     client.fetch(`/media/${id}/likes`).then((data) => {
-      this.dispatch('fetchLikes', {id, data:data.data});
-    })
+      this.dispatch('fetchLikes', {id, data: data.data});
+    });
   }
 
 }

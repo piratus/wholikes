@@ -17,7 +17,7 @@ export class Photo extends React.Component {
     return <li className={className} onClick={this.props.onClick}>
       <img src={props.url} width={props.size} height={props.size} />
       <span className="likes">{this.props.likes}</span>
-    </li>
+    </li>;
   }
 }
 

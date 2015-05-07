@@ -2,14 +2,15 @@ import _ from 'lodash';
 import React from 'react';
 import Immutable from 'immutable';
 
-import {TopBar} from 'components/TopBar.jsx!';
-import {PhotoList} from 'components/PhotoList.jsx!';
-import {UserList} from 'components/UserList.jsx!';
+import {TopBar} from 'components/TopBar.jsx!';  // eslint-disable-line no-unused-vars
+import {PhotoList} from 'components/PhotoList.jsx!';  // eslint-disable-line no-unused-vars
+import {UserList} from 'components/UserList.jsx!';  // eslint-disable-line no-unused-vars
 
 
 export class Application extends React.Component {
 
-  constructor() {
+  constructor(props) {
+    super(props);
     this.handleChange = this.forceUpdate.bind(this, null);
     this.state = {
       selectedUsers: [],
@@ -41,7 +42,7 @@ export class Application extends React.Component {
     var {selectedPhotos} = this.state;
     this.setState({
       selectedUsers: [],
-      selectedPhotos: multi ?  selectedPhotos.concat([user]) : [user]
+      selectedPhotos: multi ? selectedPhotos.concat([user]) : [user]
     });
   }
 
@@ -52,13 +53,13 @@ export class Application extends React.Component {
             user => values.contains(user.id)
         ).any()
     );
-    return [for (id of photoIds.keys()) photos.get(id)];
+    return Array.from(photoIds.keys()).map((id)=> photos.get(id));
   }
 
   getSelectedUsers(photos) {
     var {likes} = this.props.flux.stores.photos.getState();
     var {users} = this.props.flux.stores.users.getState();
-    var selected = Immutable.Set();
+    var selected = new Immutable.Set();
     photos.forEach(photo => {
       selected = selected.merge(likes.get(photo.id));
     });
@@ -66,7 +67,7 @@ export class Application extends React.Component {
   }
 
   render() {
-    var {photos, likes} = this.props.flux.stores.photos.getState();
+    var {photos} = this.props.flux.stores.photos.getState();
     var {users, self} = this.props.flux.stores.users.getState();
     var {selectedUsers, selectedPhotos} = this.state;
 
@@ -74,7 +75,7 @@ export class Application extends React.Component {
       selectedPhotos = this.getLikedPhotos(selectedUsers);
     }
     else if (selectedPhotos.length) {
-      selectedUsers = this.getSelectedUsers(selectedPhotos)
+      selectedUsers = this.getSelectedUsers(selectedPhotos);
     }
 
     return <div>
