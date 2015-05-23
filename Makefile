@@ -1,35 +1,27 @@
-.PHONY: build clean install watch
+DIST_DIR ?= static/dist
+PYTHON_ENV ?= env
+WEBPACK_OPTIONS ?= --progress
 
-STATIC_OUT_DIR = static/dist
-
-PYTHON_ENV = env/
-PIP = $(PYTHON_ENV)bin/pip
-PYTHON = $(PYTHON_ENV)bin/python
-
-NPM = node_modules/.bin/
-JSPM = $(NPM)jspm
-UGLIFY = $(NPM)uglifyjs --screw-ie8 --compress
+PIP = $(PYTHON_ENV)/bin/pip
+PYTHON = $(PYTHON_ENV)/bin/python
+WEBPACK = $(shell npm bin)/webpack $(WEBPACK_OPTIONS)
 SASS = sass -I static/styles
 
-build: install $(STATIC_OUT_DIR)/app.min.js $(STATIC_OUT_DIR)/app.css
+.PHONY: build clean install watch devserver $(DIST_DIR)/app.bundle.js
 
-$(STATIC_OUT_DIR)/%.css: static/styles/%.sass
+build: install $(DIST_DIR)/app.bundle.js $(DIST_DIR)/app.css
+
+$(DIST_DIR)/%.css: static/styles/%.sass
 	$(SASS) --sourcemap=none --style=compressed $<:$@
 
-$(STATIC_OUT_DIR)/app.js:
-	$(JSPM) bundle-sfx app $@
-
-$(STATIC_OUT_DIR)/%.min.js: $(STATIC_OUT_DIR)/%.js
-	cat static/jspm_packages/babel-polyfill.js > $@
-	$(NPM)babel-external-helpers | $(UGLIFY) >> $@
-	$(UGLIFY) --stats $< >> $@
+$(DIST_DIR)/app.bundle.js:
+	$(WEBPACK) -p
 
 clean:
 	rm -rf .sass-cache
-	rm -rf $(STATIC_OUT_DIR)
+	rm -rf $(DIST_DIR)
 	rm -rf $(PYTHON_ENV)
 	rm -rf node_modules
-	rm -rf static/jspm_packages
 
 env: requirements.txt
 	rm -rf $(PYTHON_ENV)
@@ -37,16 +29,13 @@ env: requirements.txt
 	$(PIP) install -r $<
 
 node_modules: package.json
-	npm install --install-dev
+	npm install
 
-static/jspm_packages: node_modules
-	$(JSPM) install
-
-install: env node_modules static/jspm_packages
+install: env node_modules
 
 devserver: install
 	$(PYTHON) website.py
 
 watch:
-	$(SASS) --watch static/styles/app.sass:$(STATIC_OUT_DIR)/app.css
+	$(WEBPACK) --watch & $(SASS) --watch static/styles/app.sass:$(DIST_DIR)/app.css
 

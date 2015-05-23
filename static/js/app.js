@@ -1,10 +1,11 @@
+import * as polyfill from 'babel/polyfill';  // eslint-disable-line no-unused-vars
 import React from 'react';
 
 import {client} from 'data/Client';
 import {flux} from 'flux';
 
-import {Application} from 'Application.jsx!';
-import {LoginView} from 'LoginView.jsx!';
+import {Application} from 'Application.jsx';
+import {LoginView} from 'LoginView.jsx';
 
 
 function init({accessToken, user}) {
@@ -20,7 +21,7 @@ function init({accessToken, user}) {
     flux.actions.photos.fetch();
 
     React.render(
-      React.createElement(Application, {flux: flux}),
+      <Application flux={flux} />,
       document.body
     );
   }

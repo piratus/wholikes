@@ -7,13 +7,5 @@
       user: {{ user|tojson|safe }}
     };
   </script>
-  {% if config.DEBUG %}
-    <script src="{{ url_for('static', filename='jspm_packages/babel-polyfill.js') }}"></script>
-    <script src="{{ url_for('static', filename='jspm_packages/babel-helpers.js') }}"></script>
-    <script src="{{ url_for('static', filename='jspm_packages/system.js') }}"></script>
-    <script src="{{ url_for('static', filename='config.js') }}"></script>
-    <script type="text/javascript">System.import('app');</script>
-  {% else %}
-    <script src="{{ url_for('static', filename='dist/app.min.js') }}"></script>
-  {% endif %}
+  <script src="{{ url_for('static', filename='dist/app.bundle.js') }}"></script>
 {% endblock %}

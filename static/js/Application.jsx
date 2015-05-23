@@ -2,9 +2,9 @@ import _ from 'lodash';
 import React from 'react';
 import Immutable from 'immutable';
 
-import {TopBar} from 'components/TopBar.jsx!';  // eslint-disable-line no-unused-vars
-import {PhotoList} from 'components/PhotoList.jsx!';  // eslint-disable-line no-unused-vars
-import {UserList} from 'components/UserList.jsx!';  // eslint-disable-line no-unused-vars
+import {TopBar} from 'components/TopBar.jsx';  // eslint-disable-line no-unused-vars
+import {PhotoList} from 'components/PhotoList.jsx';  // eslint-disable-line no-unused-vars
+import {UserList} from 'components/UserList.jsx';  // eslint-disable-line no-unused-vars
 
 
 export class Application extends React.Component {
