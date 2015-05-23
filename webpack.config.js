@@ -1,7 +1,10 @@
 /* eslint-env node */
+var webpack = require('webpack');
 var WebpackNotifierPlugin = require('webpack-notifier');
 
+
 module.exports = {
+  devtool: 'source-map',
   entry: './static/js/app.js',
 
   output: {
@@ -10,11 +13,18 @@ module.exports = {
   },
 
   resolve: {
-    modulesDirectories: ['', 'static/js', 'node_modules']
+    modulesDirectories: ['', 'static/js', 'node_modules'],
+    extensions: ['', '.js', '.jsx', '.sass', '.scss', '.css']
   },
 
   plugins: [
-    new WebpackNotifierPlugin({name: 'WhoLikes'})
+    new WebpackNotifierPlugin({name: 'WhoLikes'}),
+    new webpack.optimize.DedupePlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development')
+      }
+    })
   ],
 
   module: {
@@ -22,7 +32,15 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        loader: 'babel?cacheDirectory&optional=runtime'
+        loader: 'babel?cacheDirectory&optional[]=runtime'
+      },
+      {
+        test: /\.sass$/,
+        loader: 'style!css!sass?indentedSyntax&includePaths[]=./static/styles'
+      },
+      {
+        test: /\.scss$/,
+        loader: 'style!css!sass&includePaths[]=./static/styles'
       }
     ]
   },

@@ -6,7 +6,6 @@ Prerequisites are:
 
 * Python with virtualenv
 * Node.js with npm
-* Ruby with sass gem
 
 First create a create a `local.py` configuration file
 

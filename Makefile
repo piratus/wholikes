@@ -1,21 +1,18 @@
 DIST_DIR ?= static/dist
 PYTHON_ENV ?= env
-WEBPACK_OPTIONS ?= --progress
+NODE_ENV ?= development
+WEBPACK_OPTIONS ?= --progress --colors
 
 PIP = $(PYTHON_ENV)/bin/pip
 PYTHON = $(PYTHON_ENV)/bin/python
 WEBPACK = $(shell npm bin)/webpack $(WEBPACK_OPTIONS)
-SASS = sass -I static/styles
 
-.PHONY: build clean install watch devserver $(DIST_DIR)/app.bundle.js
+.PHONY: build clean install watch devserver static
 
-build: install $(DIST_DIR)/app.bundle.js $(DIST_DIR)/app.css
+build: install static
 
-$(DIST_DIR)/%.css: static/styles/%.sass
-	$(SASS) --sourcemap=none --style=compressed $<:$@
-
-$(DIST_DIR)/app.bundle.js:
-	$(WEBPACK) -p
+static:
+	NODE_ENV=production $(WEBPACK) -p
 
 clean:
 	rm -rf .sass-cache
@@ -37,5 +34,5 @@ devserver: install
 	$(PYTHON) website.py
 
 watch:
-	$(WEBPACK) --watch & $(SASS) --watch static/styles/app.sass:$(DIST_DIR)/app.css
+	$(WEBPACK) --watch --debug
 
