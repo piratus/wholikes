@@ -9,6 +9,10 @@ import {UserList} from 'components/UserList.jsx';  // eslint-disable-line no-unu
 
 export class Application extends React.Component {
 
+  static propTypes = {
+    flux: React.PropTypes.object.isRequired
+  };
+
   constructor(props) {
     super(props);
     this.handleChange = this.forceUpdate.bind(this, null);
@@ -93,7 +97,3 @@ export class Application extends React.Component {
     </div>;
   }
 }
-
-Application.propTypes = {
-  flux: React.PropTypes.object.isRequired
-};

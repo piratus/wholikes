@@ -7,6 +7,22 @@ import {flux} from 'flux';
 
 
 export class Photo extends React.Component {
+
+  static propTypes = {
+    url: React.PropTypes.string.isRequired,
+    loaded: React.PropTypes.bool,
+    selected: React.PropTypes.bool,
+    size: React.PropTypes.number.isRequired,
+    likes: React.PropTypes.number.isRequired,
+    onClick: React.PropTypes.func.isRequired
+  };
+
+
+  static defaultProps = {
+    loaded: true,
+    selected: false
+  };
+
   render() {
     var props = this.props;
     var className = classnames('photo', {
@@ -21,22 +37,14 @@ export class Photo extends React.Component {
   }
 }
 
-Photo.propTypes = {
-  url: React.PropTypes.string.isRequired,
-  loaded: React.PropTypes.bool,
-  selected: React.PropTypes.bool,
-  size: React.PropTypes.number.isRequired,
-  likes: React.PropTypes.number.isRequired,
-  onClick: React.PropTypes.func.isRequired
-};
-
-Photo.defaultProps = {
-  loaded: true,
-  selected: false
-};
-
 
 export class PhotoList extends React.Component {
+
+  static propTypes = {
+    items: React.PropTypes.instanceOf(Immutable.Iterable).isRequired,
+    selected: React.PropTypes.array.isRequired,
+    onSelect: React.PropTypes.func.isRequired
+  };
 
   handleLoadMore(event) {
     event.preventDefault();
@@ -66,9 +74,3 @@ export class PhotoList extends React.Component {
     </div>;
   }
 }
-
-PhotoList.propTypes = {
-  items: React.PropTypes.instanceOf(Immutable.Iterable).isRequired,
-  selected: React.PropTypes.array.isRequired,
-  onSelect: React.PropTypes.func.isRequired
-};

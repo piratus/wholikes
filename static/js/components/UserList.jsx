@@ -6,6 +6,16 @@ import classnames from 'classnames';
 
 export class User extends React.Component {
 
+  static propTypes = {
+    user: React.PropTypes.instanceOf(Immutable.Record).isRequired,
+    selected: React.PropTypes.bool,
+    onClick: React.PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+    selected: false
+  };
+
   render() {
     var user = this.props.user;
     var className = classnames('user', {selected: this.props.selected});
@@ -19,18 +29,14 @@ export class User extends React.Component {
 
 }
 
-User.propTypes = {
-  user: React.PropTypes.instanceOf(Immutable.Record).isRequired,
-  selected: React.PropTypes.bool,
-  onClick: React.PropTypes.func.isRequired
-};
-
-User.defaultProps = {
-  selected: false
-};
-
 
 export class UserList extends React.Component {
+
+  static propTypes = {
+    users: React.PropTypes.instanceOf(Immutable.Iterable).isRequired,
+    selected: React.PropTypes.array.isRequired,
+    onSelect: React.PropTypes.func.isRequired
+  };
 
   constructor(props) {
     super(props);
@@ -75,9 +81,3 @@ export class UserList extends React.Component {
     </div>;
   }
 }
-
-UserList.propTypes = {
-  users: React.PropTypes.instanceOf(Immutable.Iterable).isRequired,
-  selected: React.PropTypes.array.isRequired,
-  onSelect: React.PropTypes.func.isRequired
-};

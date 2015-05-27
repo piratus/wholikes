@@ -4,6 +4,10 @@ import {flux} from 'flux';
 
 export class TopBar extends React.Component {
 
+  static propTypes = {
+    user: React.PropTypes.object.isRequired
+  };
+
   render() {
     return <div className="top-bar">
       <ul className="title-area">
@@ -22,7 +26,3 @@ export class TopBar extends React.Component {
   }
 
 }
-
-TopBar.propTypes = {
-  user: React.PropTypes.object.isRequired
-};

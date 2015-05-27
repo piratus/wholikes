@@ -9,6 +9,6 @@ export class LoginView extends React.Component {
           Login with Instagram
         </a>
       </div>
-    </div>
+    </div>;
   }
 }
