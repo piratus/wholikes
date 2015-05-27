@@ -18,7 +18,7 @@ module.exports = {
   },
 
   plugins: [
-    new WebpackNotifierPlugin({name: 'WhoLikes'}),
+    new WebpackNotifierPlugin({name: 'WhoLikes', alwaysNotify: true}),
     new webpack.optimize.DedupePlugin(),
     new webpack.DefinePlugin({
       'process.env': {
