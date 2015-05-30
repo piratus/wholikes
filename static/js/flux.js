@@ -1,9 +1,9 @@
 import Flux from 'minimal-flux';
 
-import {PhotoActions} from 'data/PhotoActions';
-import {PhotoStore} from 'data/PhotoStore';
-import {UserActions} from 'data/UserActions';
-import {UserStore} from 'data/UserStore';
+import {PhotoActions} from 'data/actions/PhotoActions';
+import {PhotoStore} from 'data/stores/PhotoStore';
+import {UserActions} from 'data/actions/UserActions';
+import {UserStore} from 'data/stores/UserStore';
 
 
 export const flux = new Flux.Flux({

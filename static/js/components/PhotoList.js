@@ -3,8 +3,6 @@ import React from 'react';
 import Immutable from 'immutable';
 import classnames from 'classnames';
 
-import {flux} from 'flux';
-
 
 export class Photo extends React.Component {
 

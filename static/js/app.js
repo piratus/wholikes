@@ -6,8 +6,8 @@ import React from 'react';
 import {client} from 'data/Client';
 import {flux} from 'flux';
 
-import {Application} from 'Application.jsx';  // eslint-disable-line no-unused-vars
-import {LoginView} from 'LoginView.jsx';
+import {Application} from 'components/Application';  // eslint-disable-line no-unused-vars
+import {LoginView} from 'components/LoginView';
 
 
 function init({accessToken, user}) {

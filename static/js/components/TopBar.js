@@ -1,5 +1,4 @@
 import React from 'react';
-import {flux} from 'flux';
 
 
 export class TopBar extends React.Component {
