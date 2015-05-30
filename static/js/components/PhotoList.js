@@ -4,7 +4,7 @@ import Immutable from 'immutable';
 import classnames from 'classnames';
 
 
-export class Photo extends React.Component {
+export default class Photo extends React.Component {
 
   static propTypes = {
     url: React.PropTypes.string.isRequired,
@@ -36,7 +36,7 @@ export class Photo extends React.Component {
 }
 
 
-export class PhotoList extends React.Component {
+export default class PhotoList extends React.Component {
 
   static propTypes = {
     items: React.PropTypes.instanceOf(Immutable.Iterable).isRequired,

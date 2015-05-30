@@ -4,7 +4,7 @@ import Immutable from 'immutable';
 import {load} from 'data/LocalStorage';
 
 
-export const User = new Immutable.Record({
+const User = new Immutable.Record({
   'username': '',
   'profile_picture': '',
   'id': null,
@@ -13,11 +13,11 @@ export const User = new Immutable.Record({
 });
 
 
-export class UserStore extends Flux.Store {
+export default class UserStore extends Flux.Store {
 
   constructor(props) {
     super(props);
-    var users = _.map(load('users', {}), (value, key) => [key, new User(value)]);
+    let users = _.map(load('users', {}), (value, key) => [key, new User(value)]);
     this.state = {
       self: new User(),
       users: new Immutable.Map(users)
@@ -32,8 +32,8 @@ export class UserStore extends Flux.Store {
   }
 
   handleFetchLikes({data}) {
-    var {users} = this.getState();
-    var {likes} = this.stores.photos.getState();
+    let {users} = this.getState();
+    let {likes} = this.stores.photos.getState();
 
     users = users.merge(data.map(user => [user.id, new User(user)]));
     users = users.map(user => user.set('likes', likes.filter(value => value.contains(user.id)).size));
@@ -42,7 +42,7 @@ export class UserStore extends Flux.Store {
   }
 
   save() {
-    var {users} = this.getState();
+    let {users} = this.getState();
     localStorage.users = JSON.stringify(users.toJS());
   }
 

@@ -4,7 +4,7 @@ import Immutable from 'immutable';
 import classnames from 'classnames';
 
 
-export class User extends React.Component {
+class User extends React.Component {
 
   static propTypes = {
     user: React.PropTypes.instanceOf(Immutable.Record).isRequired,
@@ -17,8 +17,8 @@ export class User extends React.Component {
   };
 
   render() {
-    var user = this.props.user;
-    var className = classnames('user', {selected: this.props.selected});
+    let user = this.props.user;
+    let className = classnames('user', {selected: this.props.selected});
 
     return <li className={className} onClick={this.props.onClick}>
       <img src={user.profile_picture} />
@@ -30,7 +30,7 @@ export class User extends React.Component {
 }
 
 
-export class UserList extends React.Component {
+export default class UserList extends React.Component {
 
   static propTypes = {
     users: React.PropTypes.instanceOf(Immutable.Iterable).isRequired,
@@ -51,8 +51,8 @@ export class UserList extends React.Component {
   }
 
   render() {
-    var {sorting} = this.state;
-    var users = this.props.users.sortBy(user =>
+    let {sorting} = this.state;
+    let users = this.props.users.sortBy(user =>
       (sorting === 'likes') ? -user.likes : user.likes
     );
 

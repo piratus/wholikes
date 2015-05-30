@@ -2,12 +2,12 @@ import _ from 'lodash';
 import React from 'react';
 import Immutable from 'immutable';
 
-import {TopBar} from 'TopBar';  // eslint-disable-line no-unused-vars
-import {PhotoList} from 'PhotoList';  // eslint-disable-line no-unused-vars
-import {UserList} from 'UserList';  // eslint-disable-line no-unused-vars
+import TopBar from './TopBar';  // eslint-disable-line no-unused-vars
+import PhotoList from './PhotoList';  // eslint-disable-line no-unused-vars
+import UserList from './UserList';  // eslint-disable-line no-unused-vars
 
 
-export class Application extends React.Component {
+export default class Application extends React.Component {
 
   static propTypes = {
     flux: React.PropTypes.object.isRequired
@@ -35,7 +35,7 @@ export class Application extends React.Component {
   }
 
   handleUserSelect(user, multi) {
-    var {selectedUsers} = this.state;
+    let {selectedUsers} = this.state;
     this.setState({
       selectedUsers: multi ? selectedUsers.concat([user]) : [user],
       selectedPhotos: []
@@ -43,7 +43,7 @@ export class Application extends React.Component {
   }
 
   handlePhotoSelect(user, multi) {
-    var {selectedPhotos} = this.state;
+    let {selectedPhotos} = this.state;
     this.setState({
       selectedUsers: [],
       selectedPhotos: multi ? selectedPhotos.concat([user]) : [user]
@@ -51,8 +51,8 @@ export class Application extends React.Component {
   }
 
   getLikedPhotos(users) {
-    var {photos, likes} = this.props.flux.stores.photos.getState();
-    var photoIds = likes.filter(
+    let {photos, likes} = this.props.flux.stores.photos.getState();
+    let photoIds = likes.filter(
         values => _(users).map(
             user => values.contains(user.id)
         ).any()
@@ -61,9 +61,9 @@ export class Application extends React.Component {
   }
 
   getSelectedUsers(photos) {
-    var {likes} = this.props.flux.stores.photos.getState();
-    var {users} = this.props.flux.stores.users.getState();
-    var selected = new Immutable.Set();
+    let {likes} = this.props.flux.stores.photos.getState();
+    let {users} = this.props.flux.stores.users.getState();
+    let selected = new Immutable.Set();
     photos.forEach(photo => {
       selected = selected.merge(likes.get(photo.id));
     });
@@ -71,9 +71,9 @@ export class Application extends React.Component {
   }
 
   render() {
-    var {photos} = this.props.flux.stores.photos.getState();
-    var {users, self} = this.props.flux.stores.users.getState();
-    var {selectedUsers, selectedPhotos} = this.state;
+    let {photos} = this.props.flux.stores.photos.getState();
+    let {users, self} = this.props.flux.stores.users.getState();
+    let {selectedUsers, selectedPhotos} = this.state;
 
     if (selectedUsers.length) {
       selectedPhotos = this.getLikedPhotos(selectedUsers);

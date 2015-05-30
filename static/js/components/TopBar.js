@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-export class TopBar extends React.Component {
+export default class TopBar extends React.Component {
 
   static propTypes = {
     user: React.PropTypes.object.isRequired

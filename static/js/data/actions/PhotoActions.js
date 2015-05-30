@@ -5,10 +5,10 @@ import {client} from 'data/Client';
 const RECENT_MEDIA_URL = '/users/self/media/recent/';
 
 
-export class PhotoActions extends Flux.Actions {
+export default class PhotoActions extends Flux.Actions {
 
   fetch() {
-    var request = {count: 30};
+    let request = {count: 30};
 
     if (this.maxId) {
       request.max_id = this.maxId; // eslint-disable-line camelcase

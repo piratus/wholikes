@@ -3,7 +3,7 @@ import Flux from 'minimal-flux';
 import Immutable from 'immutable';
 import {load} from 'data/LocalStorage';
 
-var Photo = new Immutable.Record({
+const Photo = new Immutable.Record({
   id: null,
   thumbnail: '',
   created: null,
@@ -13,7 +13,7 @@ var Photo = new Immutable.Record({
 });
 
 
-export class PhotoStore extends Flux.Store {
+export default class PhotoStore extends Flux.Store {
 
   constructor(props) {
     super(props);
@@ -30,9 +30,9 @@ export class PhotoStore extends Flux.Store {
   }
 
   handleFetch(data) {
-    var {photos} = this.getState();
+    let {photos} = this.getState();
 
-    var newItems = data.map((item) => [item.id, new Photo({
+    let newItems = data.map((item) => [item.id, new Photo({
       id: item.id,
       created: new Date(item.created_time * 1000),
       thumbnail: item.images.thumbnail.url,
@@ -44,7 +44,7 @@ export class PhotoStore extends Flux.Store {
   }
 
   handleFetchLikes({id, data}) {
-    var {photos, likes} = this.getState();
+    let {photos, likes} = this.getState();
     this.setState({
       photos: photos.setIn([id, 'loaded'], true),
       likes: likes.set(id, new Immutable.Set(data.map(item => item.id)))
@@ -52,7 +52,7 @@ export class PhotoStore extends Flux.Store {
   }
 
   save() {
-    var {photos, likes} = this.getState();
+    let {photos, likes} = this.getState();
     localStorage.photos = JSON.stringify(photos.toArray());
     localStorage.likes = JSON.stringify(likes.toJS());
   }

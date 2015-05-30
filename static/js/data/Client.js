@@ -8,9 +8,9 @@ export class Client {
   }
 
   fetch(url, params) {
-    var scriptElement = document.createElement('script');
-    var random = Number(Math.round(Math.random() * 1000));
-    var request = _.extend({
+    let scriptElement = document.createElement('script');
+    let random = Number(Math.round(Math.random() * 1000));
+    let request = _.extend({
       'access_token': this.accessToken,
       'callback': `callback_${Number(new Date())}_${random}`
     }, params || {});
@@ -31,4 +31,4 @@ export class Client {
   }
 }
 
-export var client = new Client();
+export const client = new Client();
