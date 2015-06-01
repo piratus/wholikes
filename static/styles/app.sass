@@ -15,6 +15,12 @@
 body
   margin-top: $topbar-height + 5px
 
+.label
+  @include label($radius: 1000px)
+
+  .active &
+    @include label-style($bg: $secondary-color)
+
 .top-bar
   .name
     color: $topbar-link-color
@@ -69,14 +75,16 @@ body
 .photo-list ul
   margin: 0
 
-  .photo
+  li
     list-style: none
     display: inline-block
     position: relative
-    opacity: .5
-    border-radius: $global-radius
     margin-right: 3px
     margin-bottom: 3px
+
+  .photo
+    opacity: .5
+    border-radius: $global-radius
 
     cursor: pointer
 
@@ -97,6 +105,12 @@ body
 
     &.with-data
       opacity: 1
+
+  li > button
+    width: 64px
+    height: 64px
+    margin: 0
+
 
 .user-list ul
   margin: 0

@@ -21,7 +21,7 @@ class User extends React.Component {
     let className = classnames('user', {selected: this.props.selected});
 
     return <li className={className} onClick={this.props.onClick}>
-      <img src={user.profile_picture} />
+      <img src={user.picture} />
       <span className="name">{user.username}</span>
       <span className="likes">{user.likes}</span>
     </li>;
@@ -71,12 +71,12 @@ export default class UserList extends React.Component {
         </dd>
       </dl>
       <ul>
-        {users.map(user =>
+        {users.toArray().map(user =>
           <User key={user.id}
                 user={user}
                 selected={_.contains(this.props.selected, user)}
                 onClick={event => this.props.onSelect(user, event.metaKey)} />
-        ).toArray()}
+        )}
       </ul>
     </div>;
   }

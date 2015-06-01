@@ -57,8 +57,8 @@ export default class PhotoStore extends Flux.Store {
   }
 
   handleFetchLikes(id) {
-    client.getLikes(id).then((response)=> {
-      PhotoStore.actions.photos.receiveLikes({id, data: response.data});
+    client.getLikes(id).then((data)=> {
+      PhotoStore.actions.photos.receiveLikes({id, data});
     });
   }
 

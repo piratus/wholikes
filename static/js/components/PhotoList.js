@@ -3,6 +3,7 @@ import React from 'react';
 import Immutable from 'immutable';
 import classnames from 'classnames';
 
+import Icon from 'ui/Icon';  // eslint-disable-line no-unused-vars
 import PropTypes from '../utils/PropTypes';
 
 
@@ -50,6 +51,12 @@ export default class PhotoList extends React.Component {
     actions: PropTypes.actions
   };
 
+  constructor(props) {
+    super(props);
+
+    this.handleLoadMore = this.handleLoadMore.bind(this);
+  }
+
   handleLoadMore(event) {
     event.preventDefault();
     this.context.actions.photos.fetch();
@@ -74,6 +81,11 @@ export default class PhotoList extends React.Component {
                  onClick={event => this.props.onSelect(item, event.metaKey)}
                  likes={item.likes} />
         )}
+        <li>
+          <button onClick={this.handleLoadMore}>
+            <Icon name="refresh" />
+          </button>
+        </li>
       </ul>
     </div>;
   }

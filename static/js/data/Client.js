@@ -37,7 +37,19 @@ export class Client {
   }
 
   getLikes(id) {
-    return this.fetch(`/media/${id}/likes`);
+    return this.fetch(`/media/${id}/likes`).then(({data})=> data);
+  }
+
+  getProfile(id='self') {
+    return this.fetch(`/users/${id}`).then(({data})=> data);
+  }
+
+  getFollowedBy(id='self') {
+    return this.fetch(`/users/${id}/followed-by`).then(({data})=> data);
+  }
+
+  getFollows(id='self') {
+    return this.fetch(`/users/${id}/follows`).then(({data})=> data);
   }
 }
 

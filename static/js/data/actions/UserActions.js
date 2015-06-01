@@ -7,4 +7,15 @@ export default class UserActions extends Flux.Actions {
     this.dispatch('init', user);
   }
 
+  receiveProfile(profile) {
+    this.dispatch('receiveProfile', profile);
+  }
+
+  receiveFollowedBy(followedBy) {
+    this.dispatch('receiveFollowedBy', followedBy);
+  }
+
+  receiveFollows(follows) {
+    this.dispatch('receiveFollows', follows);
+  }
 }
