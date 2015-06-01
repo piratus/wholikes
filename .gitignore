@@ -7,3 +7,11 @@ local.py
 .sass-cache/
 node_modules/
 static/dist/
+
+# Fontello
+.fontello
+static/styles/fontello/css/
+static/styles/fontello/font/
+static/styles/fontello/demo.html
+static/styles/fontello/LICENSE.txt
+static/styles/fontello/README.txt

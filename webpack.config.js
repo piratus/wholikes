@@ -41,6 +41,10 @@ module.exports = {
       {
         test: /\.scss$/,
         loader: 'style!css!sass&includePaths[]=./static/styles'
+      },
+      {
+        test: /\.woff$/,
+        loader: 'url?limit=100000'
       }
     ]
   },

@@ -776,7 +776,7 @@ $button-lrg: rem-calc(16);
 // 16. Labels
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
-// $include-html-label-classes: $include-html-classes;
+ $include-html-label-classes: false;
 
 // We use these to style the labels
 // $label-padding: rem-calc(4 8 4);
