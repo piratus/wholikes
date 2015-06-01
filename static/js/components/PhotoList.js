@@ -3,6 +3,8 @@ import React from 'react';
 import Immutable from 'immutable';
 import classnames from 'classnames';
 
+import PropTypes from '../utils/PropTypes';
+
 
 export default class Photo extends React.Component {
 
@@ -44,9 +46,13 @@ export default class PhotoList extends React.Component {
     onSelect: React.PropTypes.func.isRequired
   };
 
+  static contextTypes = {
+    actions: PropTypes.actions
+  };
+
   handleLoadMore(event) {
     event.preventDefault();
-    flux.actions.photos.fetch();
+    this.context.actions.photos.fetch();
   }
 
   render() {

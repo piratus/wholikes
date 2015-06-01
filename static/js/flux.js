@@ -6,7 +6,7 @@ import UserActions from 'data/actions/UserActions';
 import UserStore from 'data/stores/UserStore';
 
 
-export default new Flux({
+const flux = new Flux({
   actions: {
     photos: PhotoActions,
     users: UserActions
@@ -16,3 +16,10 @@ export default new Flux({
     users: [UserStore, 'photos']
   }
 });
+
+
+/* FIXME: hack to access actions from stores */
+UserStore.actions = flux.actions;
+PhotoStore.actions = flux.actions;
+
+export default flux;

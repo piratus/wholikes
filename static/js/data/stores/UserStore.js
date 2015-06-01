@@ -24,14 +24,14 @@ export default class UserStore extends Flux.Store {
     };
 
     this.handleAction('users.init', this.handleInit);
-    this.handleAction('photos.fetchLikes', this.handleFetchLikes);
+    this.handleAction('photos.receiveLikes', this.handleReceiveLikes);
   }
 
   handleInit(data) {
     this.setState({self: new User(data)});
   }
 
-  handleFetchLikes({data}) {
+  handleReceiveLikes({data}) {
     let {users} = this.getState();
     let {likes} = this.stores.photos.getState();
 

@@ -1,30 +1,22 @@
 import Flux from 'minimal-flux';
-import {client} from 'data/Client';
-
-
-const RECENT_MEDIA_URL = '/users/self/media/recent/';
 
 
 export default class PhotoActions extends Flux.Actions {
 
   fetch() {
-    let request = {count: 30};
-
-    if (this.maxId) {
-      request.max_id = this.maxId; // eslint-disable-line camelcase
-    }
-
-    client.fetch(RECENT_MEDIA_URL, request).then(({data, pagination}) => {
-      this.maxId = pagination.next_max_id;
-      this.dispatch('fetch', data);
-      data.forEach(this.fetchLikes.bind(this));
-    });
+    this.dispatch('fetch');
   }
 
-  fetchLikes({id}) {
-    client.fetch(`/media/${id}/likes`).then((data) => {
-      this.dispatch('fetchLikes', {id, data: data.data});
-    });
+  receive(data) {
+    this.dispatch('receive', data);
+  }
+
+  fetchLikes(id) {
+    this.dispatch('fetchLikes', id);
+  }
+
+  receiveLikes(data) {
+    this.dispatch('receiveLikes', data);
   }
 
 }

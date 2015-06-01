@@ -6,20 +6,32 @@ import TopBar from './TopBar';  // eslint-disable-line no-unused-vars
 import PhotoList from './PhotoList';  // eslint-disable-line no-unused-vars
 import UserList from './UserList';  // eslint-disable-line no-unused-vars
 
+import PropTypes from '../utils/PropTypes';
 
 export default class Application extends React.Component {
 
   static propTypes = {
-    flux: React.PropTypes.object.isRequired
+    flux: PropTypes.flux
+  };
+
+  static childContextTypes = {
+    actions: PropTypes.actions
   };
 
   constructor(props) {
     super(props);
-    this.handleChange = this.forceUpdate.bind(this, null);
     this.state = {
       selectedUsers: [],
       selectedPhotos: []
     };
+
+    this.handleChange = this.forceUpdate.bind(this, null);
+    this.handlePhotoSelect = this.handlePhotoSelect.bind(this);
+    this.handleUserSelect = this.handleUserSelect.bind(this);
+  }
+
+  getChildContext() {
+    return {actions: this.props.flux.actions};
   }
 
   componentWillMount() {
@@ -89,10 +101,10 @@ export default class Application extends React.Component {
       <div className="main-container">
         <PhotoList items={photos}
                    selected={selectedPhotos}
-                   onSelect={this.handlePhotoSelect.bind(this)} />
+                   onSelect={this.handlePhotoSelect} />
         <UserList users={users}
                   selected={selectedUsers}
-                  onSelect={this.handleUserSelect.bind(this)} />
+                  onSelect={this.handleUserSelect} />
       </div>
     </div>;
   }
