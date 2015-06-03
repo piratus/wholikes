@@ -1,5 +1,5 @@
 import * as polyfill from 'babel/polyfill';  // eslint-disable-line no-unused-vars
-import stylesheet from 'styles/app.sass';  // eslint-disable-line no-unused-vars
+import stylesheet from '../styles/app.sass';  // eslint-disable-line no-unused-vars
 
 import React from 'react';
 

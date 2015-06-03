@@ -18,10 +18,9 @@ FONTELLO_HOST ?= http://fontello.com
 build: install static
 
 static:
-	NODE_ENV=production $(WEBPACK) -p
+	NODE_ENV=production $(WEBPACK)
 
 clean:
-	rm -rf .sass-cache
 	rm -rf $(DIST_DIR)
 	rm -rf $(PYTHON_ENV)
 	rm -rf node_modules
@@ -40,7 +39,7 @@ devserver: install
 	$(PYTHON) website.py
 
 watch:
-	$(WEBPACK) --watch --debug
+	$(WEBPACK) --watch
 
 fontopen:
 	${CURL} --output .fontello --form "config=@${FONTELLO_DIR}/config.json" ${FONTELLO_HOST}
