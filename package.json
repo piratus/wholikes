@@ -18,7 +18,7 @@
     "classnames": "~2.1",
     "css-loader": "^0.14.0",
     "eslint": "^0.22.0",
-    "eslint-plugin-react": "^2.4.0",
+    "eslint-plugin-react": "^2.5.0",
     "immutable": "^3.6.4",
     "lodash": "~3.9",
     "minimal-flux": "^0.4.1",

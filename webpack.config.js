@@ -10,6 +10,7 @@ const DEBUG = process.env.NODE_ENV !== 'production';
 const PLUGINS = [
   new WebpackNotifierPlugin({name: 'WhoLikes', alwaysNotify: true}),
   new webpack.DefinePlugin({
+    '__DEBUG__': DEBUG,
     'process.env': {
       NODE_ENV: JSON.stringify(DEBUG ? 'development' : 'production')
     }
@@ -28,6 +29,7 @@ const PLUGINS_PROD = [
     }
   }),
 ];
+
 
 module.exports = {
   devtool: DEBUG ? 'eval' : null,

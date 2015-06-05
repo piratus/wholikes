@@ -20,8 +20,9 @@ export default class PhotoStore extends Flux.Store {
 
   constructor(props) {
     super(props);
-    var photos = load('photos').map(item => [item.id, new Photo(item)]);
-    var likes = load('likes', {});
+
+    let photos = load('photos').map(item => [item.id, new Photo(item)]);
+    let likes = load('likes', {});
 
     this.state = {
       photos: new Immutable.OrderedMap(photos),
