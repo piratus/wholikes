@@ -1,12 +1,11 @@
-import _ from 'lodash';
-import Flux from 'minimal-flux';
-import Immutable from 'immutable';
+import {Store} from 'minimal-flux';
+import {Record, Map, OrderedMap, Set} from 'immutable';
 
 import {client} from '../Client';
 import {load} from '../LocalStorage';
 
 
-const Photo = new Immutable.Record({
+const BasePhoto = new Record({
   id: null,
   thumbnail: '',
   created: null,
@@ -16,17 +15,35 @@ const Photo = new Immutable.Record({
 });
 
 
-export default class PhotoStore extends Flux.Store {
+class Photo extends BasePhoto {
+
+  constructor(attrs) {
+    super({
+      id: attrs.id,
+      created: new Date(attrs.createdTime * 1000),
+      thumbnail: attrs.images.thumbnail.url,
+      likes: attrs.likes.count,
+      comments: attrs.comments.count
+    });
+  }
+
+}
+
+
+export default class PhotoStore extends Store {
 
   constructor(props) {
     super(props);
 
-    let photos = load('photos').map(item => [item.id, new Photo(item)]);
-    let likes = load('likes', {});
+    let photos = load('photos')
+      .map((item) => [item.id, new Photo(item)]);
+
+    let likes = Object.entries(load('likes', {}))
+      .map(([key, value]) => [key, new Set(value)]);
 
     this.state = {
-      photos: new Immutable.OrderedMap(photos),
-      likes: new Immutable.Map(_.map(likes, (value, key) => [key, new Immutable.Set(value)]))
+      photos: new OrderedMap(photos),
+      likes: new Map(likes)
     };
 
     this.handleAction('photos.fetch', this.handleFetch);
@@ -36,43 +53,36 @@ export default class PhotoStore extends Flux.Store {
   }
 
   handleFetch() {
-    client.getPhotos(this.maxId).then(({data, pagination}) => {
-      this.maxId = pagination.next_max_id;
+    client.getPhotos(this.maxId).then(({data, pagination})=> {
+      this.maxId = pagination.nextMaxId;
       PhotoStore.actions.photos.receive(data);
-      data.forEach(({id})=> { PhotoStore.actions.photos.fetchLikes(id); });
+      for (let photo of data) {
+        PhotoStore.actions.photos.fetchLikes(photo.id);
+      }
     });
   }
 
   handleReceive(data) {
-    let {photos} = this.getState();
-
-    let newItems = data.map((item) => [item.id, new Photo({
-      id: item.id,
-      created: new Date(item.created_time * 1000),
-      thumbnail: item.images.thumbnail.url,
-      likes: item.likes.count,
-      comments: item.comments.count
-    })]);
-
-    this.setState({photos: photos.merge(newItems)});
+    let newItems = data.map((item)=> [item.id, new Photo(item)]);
+    this.setState({photos: this.state.photos.merge(newItems)});
   }
 
   handleFetchLikes(id) {
-    client.getLikes(id).then((data)=> {
+    client.getLikes(id).then(({data})=> {
       PhotoStore.actions.photos.receiveLikes({id, data});
     });
   }
 
   handleReceiveLikes({id, data}) {
-    let {photos, likes} = this.getState();
+    let {photos, likes} = this.state;
     this.setState({
       photos: photos.setIn([id, 'loaded'], true),
-      likes: likes.set(id, new Immutable.Set(data.map(item => item.id)))
+      likes: likes.set(id, new Set(data.map((item)=> item.id)))
     });
   }
 
   save() {
-    let {photos, likes} = this.getState();
+    let {photos, likes} = this.state;
     localStorage.photos = JSON.stringify(photos.toArray());
     localStorage.likes = JSON.stringify(likes.toJS());
   }

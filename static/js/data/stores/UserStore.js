@@ -1,16 +1,15 @@
-import _ from 'lodash';
-import Flux from 'minimal-flux';
-import Immutable from 'immutable';
+import {Store} from 'minimal-flux';
+import {Record, Map} from 'immutable';
 
 import {load} from '../LocalStorage';
 import {client} from '../Client';
 
 
-const BaseCurrentUser = new Immutable.Record({
+const BaseCurrentUser = new Record({
   id: null,
   username: '',
-  picture: '',
-  name: '',
+  profilePicture: '',
+  fullName: '',
   likes: 0,
   comments: 0,
 
@@ -23,18 +22,15 @@ const BaseCurrentUser = new Immutable.Record({
 
 
 class CurrentUser extends BaseCurrentUser {
-  constructor(attrs={}) {
-    let {profile_picture: picture, full_name: name} = attrs;
-    super({...attrs, picture, name});
-  }
+
 }
 
 
-const BaseUser = new Immutable.Record({
+const BaseUser = new Record({
   id: null,
   username: '',
-  picture: '',
-  name: '',
+  profilePicture: '',
+  fullName: '',
   likes: 0,
   comments: 0,
   follows: false,
@@ -43,21 +39,20 @@ const BaseUser = new Immutable.Record({
 
 
 class User extends BaseUser {
-  constructor(attrs={}) {
-    let {profile_picture: picture, full_name: name} = attrs;
-    super({...attrs, picture, name});
-  }
+
 }
 
 
-export default class UserStore extends Flux.Store {
+export default class UserStore extends Store {
 
   constructor(props) {
     super(props);
-    let users = _.map(load('users', {}), (value, key) => [key, new CurrentUser(value)]);
+    let users = Object.entries(load('users', {}))
+      .map(([key, value])=> [key, new CurrentUser(value)]);
+
     this.state = {
       self: new CurrentUser(),
-      users: new Immutable.Map(users)
+      users: new Map(users)
     };
 
     this.handleAction('users.init', this.handleInit);
@@ -84,8 +79,8 @@ export default class UserStore extends Flux.Store {
     });
   }
 
-  handleReceiveProfile(profile) {
-    let {counts: {media, follows, followed_by: followedBy}} = profile;
+  handleReceiveProfile({data: profile}) {
+    let {counts: {media, follows, followedBy}} = profile;
     let {self} = this.getState();
 
     self = self.withMutations((self)=> {
@@ -97,34 +92,34 @@ export default class UserStore extends Flux.Store {
     this.setState({self});
   }
 
-  handleReceiveFollows(follows) {
-    let {self} = this.getState();
-
+  handleReceiveFollows({data}) {
+    let followedUsers = data.map((user)=>
+        [user.id, new User({...user, followed: true})]
+    );
     this.setState({
-      self: self.set('totalFollows', follows.length)
+      users: this.state.users.merge(followedUsers)
     });
   }
 
   handleReceivePhotos(photos) {
-    let {self} = this.getState();
+    let {self} = this.state;
     this.setState({
       self: self.set('mediaLoaded', self.mediaLoaded + photos.length)
     });
   }
 
   handleReceiveLikes({data}) {
-    let {users, self} = this.getState();
+    let {users, self} = this.state;
     let {likes} = this.stores.photos.getState();
 
-    users = users.merge(data.map(user => [user.id, new User(user)]));
-    users = users.map(user => user.set('likes', likes.filter(value => value.contains(user.id)).size));
+    users = users.merge(data.map((user)=> [user.id, new User(user)]));
+    users = users.map((user)=> user.set('likes', likes.filter((value)=> value.contains(user.id)).size));
 
     this.setState({users, self: self.set('likes', likes.count)});
   }
 
   save() {
-    let {users} = this.getState();
-    localStorage.users = JSON.stringify(users.toJS());
+    localStorage.users = JSON.stringify(this.state.users.toJS());
   }
 
 }
