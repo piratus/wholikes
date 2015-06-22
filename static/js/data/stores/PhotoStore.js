@@ -1,7 +1,6 @@
 import {Store} from 'minimal-flux';
 import {Record, Map, OrderedMap, Set} from 'immutable';
 
-import {client} from '../Client';
 import {load} from '../LocalStorage';
 
 
@@ -46,32 +45,19 @@ export default class PhotoStore extends Store {
       likes: new Map(likes)
     };
 
-    this.handleAction('photos.fetch', this.handleFetch);
     this.handleAction('photos.receive', this.handleReceive);
     this.handleAction('photos.fetchLikes', this.handleFetchLikes);
     this.handleAction('photos.receiveLikes', this.handleReceiveLikes);
   }
 
-  handleFetch() {
-    client.getPhotos(this.maxId).then(({data, pagination})=> {
-      this.maxId = pagination.nextMaxId;
-      PhotoStore.actions.photos.receive(data);
-      for (let photo of data) {
-        PhotoStore.actions.photos.fetchLikes(photo.id);
-      }
-    });
-  }
+  handleFetch() {}
 
   handleReceive(data) {
     let newItems = data.map((item)=> [item.id, new Photo(item)]);
     this.setState({photos: this.state.photos.merge(newItems)});
   }
 
-  handleFetchLikes(id) {
-    client.getLikes(id).then(({data})=> {
-      PhotoStore.actions.photos.receiveLikes({id, data});
-    });
-  }
+  handleFetchLikes() {}
 
   handleReceiveLikes({id, data}) {
     let {photos, likes} = this.state;

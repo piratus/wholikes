@@ -1,10 +1,19 @@
 import Flux from 'minimal-flux';
+import {client} from '../Client';
 
 
 export default class PhotoActions extends Flux.Actions {
 
   fetch() {
     this.dispatch('fetch');
+    client.getPhotos(this.maxId).then(({data, pagination})=> {
+      this.maxId = pagination.nextMaxId;
+      this.receive(data);
+
+      for (let photo of data) {
+        this.fetchLikes(photo.id);
+      }
+    });
   }
 
   receive(data) {
@@ -12,7 +21,9 @@ export default class PhotoActions extends Flux.Actions {
   }
 
   fetchLikes(id) {
-    this.dispatch('fetchLikes', id);
+    client.getLikes(id).then(({data})=> {
+      this.receiveLikes({id, data});
+    });
   }
 
   receiveLikes(data) {

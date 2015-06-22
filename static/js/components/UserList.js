@@ -1,7 +1,6 @@
-import _ from 'lodash';
 import React from 'react';
 import Immutable from 'immutable';
-import classnames from 'classnames';
+import cx from 'classnames';
 
 
 class User extends React.Component {
@@ -16,21 +15,31 @@ class User extends React.Component {
     selected: false
   };
 
-  render() {
-    let user = this.props.user;
-    let className = classnames('user', {selected: this.props.selected});
+  constructor(props) {
+    super(props);
+  }
 
-    return <li className={className} onClick={this.props.onClick}>
-      <img src={user.picture} />
-      <span className="name">{user.username}</span>
-      <span className="likes">{user.likes}</span>
-    </li>;
+  handleClick = (event)=> {
+    event.preventDefault();
+    this.props.onClick(this.props.user, event.metaKey);
+  };
+
+  render() {
+    let {user, selected} = this.props;
+
+    return (
+      <li className={cx('user', {selected})} onClick={this.handleClick}>
+        <img src={user.profilePicture} />
+        <span className="name">{user.username}</span>
+        <span className="likes">{user.likes}</span>
+      </li>
+    );
   }
 
 }
 
 
-export default class UserList extends React.Component {
+class UserList extends React.Component {
 
   static propTypes = {
     users: React.PropTypes.instanceOf(Immutable.Iterable).isRequired,
@@ -45,39 +54,49 @@ export default class UserList extends React.Component {
     };
   }
 
-  handleSort(sorting, event) {
+  handleSortMostLikes = (event)=> {
     event.preventDefault();
-    this.setState({sorting});
-  }
+    this.setState({sorting: 'likes'});
+  };
+
+  handleSortLeastLikes = (event)=> {
+    event.preventDefault();
+    this.setState({sorting: '-likes'});
+  };
 
   render() {
     let {sorting} = this.state;
-    let users = this.props.users.sortBy(user =>
+    let users = this.props.users.sortBy((user)=>
       (sorting === 'likes') ? -user.likes : user.likes
     );
 
-    return <div className="user-list">
-      <dl className="sub-nav">
-        <dt>Order:</dt>
-        <dd className={classnames({active: sorting === 'likes'})}>
-          <a href="#" onClick={this.handleSort.bind(this, 'likes')}>
-            Most likes
-          </a>
-        </dd>
-        <dd className={classnames({active: sorting === '-likes'})}>
-          <a href="#" onClick={this.handleSort.bind(this, '-likes')}>
-            Least likes
-          </a>
-        </dd>
-      </dl>
-      <ul>
-        {users.toArray().map(user =>
-          <User key={user.id}
-                user={user}
-                selected={_.contains(this.props.selected, user)}
-                onClick={event => this.props.onSelect(user, event.metaKey)} />
-        )}
-      </ul>
-    </div>;
+    return (
+      <div className="user-list">
+        <dl className="sub-nav">
+          <dt>Order:</dt>
+          <dd className={cx({active: sorting === 'likes'})}>
+            <a href="#" onClick={this.handleSortMostLikes}>
+              Most likes
+            </a>
+          </dd>
+          <dd className={cx({active: sorting === '-likes'})}>
+            <a href="#" onClick={this.handleSortLeastLikes}>
+              Least likes
+            </a>
+          </dd>
+        </dl>
+        <ul>
+          {users.toArray().map(user =>
+            <User key={user.id}
+                  user={user}
+                  selected={this.props.selected.includes(user)}
+                  onClick={this.props.onSelect} />
+          )}
+        </ul>
+      </div>
+    );
   }
 }
+
+
+export default UserList;

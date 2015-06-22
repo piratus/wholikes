@@ -7,6 +7,8 @@ from flask import (
     session,
 )
 import requests
+from inflection import camelize
+
 
 app = Flask(__name__)
 app.config.from_object('local')
@@ -16,12 +18,16 @@ AUTH_URL = ('https://api.instagram.com/oauth/authorize/'
 AUTH_TOKEN_URL = 'https://api.instagram.com/oauth/access_token'
 
 
+def to_camel_case(obj: dict) -> dict:
+    return {camelize(key, False): value for key, value in obj.items()}
+
+
 @app.route('/')
 def index():
     return render_template(
         'index.html',
         user=session.get('user'),
-        access_token=session.get('access_token')
+        access_token=session.get('access_token', '')
     )
 
 
@@ -44,7 +50,7 @@ def login_complete():
     if auth_response.status_code == 200:
         response = auth_response.json()
 
-        session['user'] = response['user']
+        session['user'] = to_camel_case(response['user'])
         session['access_token'] = response['access_token']
         return redirect(url_for('index'))
 

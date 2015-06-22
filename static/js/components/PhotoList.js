@@ -1,45 +1,55 @@
-import _ from 'lodash';
 import React from 'react';
 import Immutable from 'immutable';
-import classnames from 'classnames';
+import cx from 'classnames';
 
-import Icon from 'ui/Icon';  // eslint-disable-line no-unused-vars
+import Icon from 'ui/Icon';
 import PropTypes from '../utils/PropTypes';
 
 
-export default class Photo extends React.Component {
+class Photo extends React.Component {
 
   static propTypes = {
-    url: React.PropTypes.string.isRequired,
-    loaded: React.PropTypes.bool,
+    photo: React.PropTypes.shape({
+      thumbnail: React.PropTypes.string.isRequired,
+      likes: React.PropTypes.number.isRequired,
+      loaded: React.PropTypes.bool.isRequired,
+    }).isRequired,
     selected: React.PropTypes.bool,
     size: React.PropTypes.number.isRequired,
-    likes: React.PropTypes.number.isRequired,
     onClick: React.PropTypes.func.isRequired
   };
 
-
   static defaultProps = {
-    loaded: true,
     selected: false
   };
 
+  constructor(props) {
+    super(props);
+  }
+
+  handleClick = (event)=> {
+    event.preventDefault();
+    this.props.onClick(this.props.photo, event.metaKey);
+  };
+
   render() {
-    var props = this.props;
-    var className = classnames('photo', {
-      'with-data': this.props.loaded,
-      selected: this.props.selected
+    const {photo, size, selected} = this.props;
+    const className = cx('photo', {
+      'with-data': photo.loaded,
+      selected,
     });
 
-    return <li className={className} onClick={this.props.onClick}>
-      <img src={props.url} width={props.size} height={props.size} />
-      <span className="likes">{this.props.likes}</span>
-    </li>;
+    return (
+      <li className={className} onClick={this.handleClick}>
+        <img src={photo.thumbnail} width={size} height={size} />
+        <span className="likes">{photo.likes}</span>
+      </li>
+    );
   }
 }
 
 
-export default class PhotoList extends React.Component {
+class PhotoList extends React.Component {
 
   static propTypes = {
     items: React.PropTypes.instanceOf(Immutable.Iterable).isRequired,
@@ -53,33 +63,61 @@ export default class PhotoList extends React.Component {
 
   constructor(props) {
     super(props);
-
-    this.handleLoadMore = this.handleLoadMore.bind(this);
+    this.state = {
+      sorting: 'date',
+      reversed: false,
+    };
   }
 
-  handleLoadMore(event) {
+  handleLoadMore = (event)=> {
     event.preventDefault();
     this.context.actions.photos.fetch();
-  }
+  };
+
+  handleSortByDate = (event)=> {
+    event.preventDefault();
+    this.setState({sorting: 'date', reversed: false});
+  };
+
+  handleSortMostLikes = (event)=> {
+    event.preventDefault();
+    this.setState({sorting: 'likes', reversed: true});
+  };
+
+  handleSortLeastLikes = (event)=> {
+    event.preventDefault();
+    this.setState({sorting: 'likes', reversed: false});
+  };
 
   render() {
-    var items = this.props.items.toArray();
-    return <div className="photo-list">
+    let items = this.props.items.toIndexedSeq();
+    let {sorting, reversed} = this.state;
+    if (sorting === 'likes') {
+      items = items.sortBy((photo)=> photo.likes);
+    }
+    if (reversed) {
+      items = items.reverse();
+    }
+    return (<div className="photo-list">
       <dl className="sub-nav">
         <dt>Order:</dt>
-        <dd className="active"><a href="#">By date</a></dd>
-        <dd><a href="#">Most likes</a></dd>
-        <dd><a href="#">Least likes</a></dd>
+        <dd className={cx({active: sorting === 'date'})}>
+          <a href="#" onClick={this.handleSortByDate}>By date</a>
+        </dd>
+        <dd className={cx({active: sorting === 'likes' && reversed})}>
+          <a href="#" onClick={this.handleSortMostLikes}>Most likes</a>
+        </dd>
+        <dd className={cx({active: sorting === 'likes' && !reversed})}>
+          <a href="#" onClick={this.handleSortLeastLikes}>Least likes</a>
+        </dd>
       </dl>
       <ul>
-        {items.map(item =>
+        {Array.from(items).map(item =>
           <Photo key={item.id}
-                 url={item.thumbnail}
-                 size={64}
-                 loaded={item.loaded}
-                 selected={_.contains(this.props.selected, item)}
-                 onClick={event => this.props.onSelect(item, event.metaKey)}
-                 likes={item.likes} />
+                 photo={item}
+                 size={75}
+                 selected={this.props.selected.includes(item)}
+                 onClick={this.props.onSelect} />
         )}
         <li>
           <button onClick={this.handleLoadMore}>
@@ -87,6 +125,9 @@ export default class PhotoList extends React.Component {
           </button>
         </li>
       </ul>
-    </div>;
+    </div>);
   }
 }
+
+
+export default PhotoList;

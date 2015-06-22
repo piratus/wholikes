@@ -67,11 +67,11 @@ module.exports = {
       },
       {
         test: /\.sass$/,
-        loader: 'style!css!sass?indentedSyntax&includePaths[]=./static/styles'
+        loader: 'style!css!autoprefixer!sass?indentedSyntax&includePaths[]=./static/styles'
       },
       {
         test: /\.scss$/,
-        loader: 'style!css!sass&includePaths[]=./static/styles'
+        loader: 'style!css!autoprefixer!sass&includePaths[]=./static/styles'
       },
       {
         test: /\.woff$/,

@@ -2,10 +2,9 @@ import {Store} from 'minimal-flux';
 import {Record, Map} from 'immutable';
 
 import {load} from '../LocalStorage';
-import {client} from '../Client';
 
 
-const BaseCurrentUser = new Record({
+const CurrentUser = new Record({
   id: null,
   username: '',
   profilePicture: '',
@@ -21,12 +20,7 @@ const BaseCurrentUser = new Record({
 });
 
 
-class CurrentUser extends BaseCurrentUser {
-
-}
-
-
-const BaseUser = new Record({
+const User = new Record({
   id: null,
   username: '',
   profilePicture: '',
@@ -36,11 +30,6 @@ const BaseUser = new Record({
   follows: false,
   followed: false
 });
-
-
-class User extends BaseUser {
-
-}
 
 
 export default class UserStore extends Store {
@@ -63,25 +52,12 @@ export default class UserStore extends Store {
   }
 
   handleInit(data) {
-    let {self} = this.getState();
-    this.setState({self: new CurrentUser({...self, ...data})});
-
-    client.getProfile().then((profile)=> {
-      UserStore.actions.users.receiveProfile(profile);
-    });
-
-    client.getFollows().then((follows)=> {
-      UserStore.actions.users.receiveFollows(follows);
-    });
-
-    client.getFollowedBy().then((followedBy)=> {
-      UserStore.actions.users.receiveFollowedBy(followedBy);
-    });
+    this.setState({self: new CurrentUser(data)});
   }
 
   handleReceiveProfile({data: profile}) {
     let {counts: {media, follows, followedBy}} = profile;
-    let {self} = this.getState();
+    let {self} = this.state;
 
     self = self.withMutations((self)=> {
       return self.set('mediaTotal', media)

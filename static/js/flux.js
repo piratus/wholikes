@@ -18,8 +18,4 @@ const flux = new Flux({
 });
 
 
-/* FIXME: hack to access actions from stores */
-UserStore.actions = flux.actions;
-PhotoStore.actions = flux.actions;
-
 export default flux;

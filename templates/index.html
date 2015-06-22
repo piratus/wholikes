@@ -3,7 +3,7 @@
 {% block body %}
   <script type="text/javascript">
     var APP_SETTINGS = {
-      accessToken: '{{ session.access_token }}',
+      accessToken: '{{ access_token }}',
       user: {{ user|tojson|safe }}
     };
   </script>
