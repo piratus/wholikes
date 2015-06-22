@@ -27,14 +27,13 @@ function parseResponse(obj) {
 }
 
 
-
 export class Client {
 
   init({accessToken}) {
     this.accessToken = accessToken;
   }
 
-  fetch(url, params={}) {
+  fetch(url, params = {}) {
     let random = Number(Math.round(Math.random() * 1000));
     let request = {
       ...params,
@@ -62,15 +61,15 @@ export class Client {
     return this.fetch(`/media/${id}/likes`);
   }
 
-  getProfile(id='self') {
+  getProfile(id = 'self') {
     return this.fetch(`/users/${id}`);
   }
 
-  getFollowedBy(id='self') {
+  getFollowedBy(id = 'self') {
     return this.fetch(`/users/${id}/followed-by`);
   }
 
-  getFollows(id='self') {
+  getFollows(id = 'self') {
     return this.fetch(`/users/${id}/follows`);
   }
 }

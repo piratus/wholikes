@@ -7,5 +7,5 @@
       user: {{ user|tojson|safe }}
     };
   </script>
-  <script src="{{ url_for('static', filename='dist/app.bundle.js') }}"></script>
+  <script src="{% if config.DEBUG %}http://localhost:7777/app.bundle.js{% else %}{{ url_for('static', filename='dist/app.bundle.js') }}{% endif %}"></script>
 {% endblock %}

@@ -1,12 +1,12 @@
-import * as polyfill from 'babel/polyfill';  // eslint-disable-line no-unused-vars
-import stylesheet from '../styles/app.sass';  // eslint-disable-line no-unused-vars
+import 'babel-polyfill';
+import '../styles/app.sass';
 
 import React from 'react';
 
 import {client} from 'data/Client';
 import flux from 'flux';
 
-import Application from 'components/Application';  // eslint-disable-line no-unused-vars
+import Application from 'components/Application';
 import LoginView from 'components/LoginView';
 
 

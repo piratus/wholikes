@@ -1,4 +1,4 @@
-export function load(key, _default=[]) {
+export function load(key, _default = []) {
   try {
     return JSON.parse(localStorage.getItem(key)) || _default;
   }

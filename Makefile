@@ -5,7 +5,7 @@ WEBPACK_OPTIONS ?= --progress --colors
 
 PIP = $(PYTHON_ENV)/bin/pip
 PYTHON = $(PYTHON_ENV)/bin/python
-WEBPACK = $(shell npm bin)/webpack $(WEBPACK_OPTIONS)
+NODE = $(shell npm bin)
 
 CURL ?= curl --silent --show-error --fail
 OPEN_BROWSER ?= open -a 'Google Chrome'
@@ -18,7 +18,7 @@ FONTELLO_HOST ?= http://fontello.com
 build: install static
 
 static:
-	NODE_ENV=production $(WEBPACK)
+	npm run-script build
 
 clean:
 	rm -rf $(DIST_DIR)
@@ -26,8 +26,7 @@ clean:
 	rm -rf node_modules
 
 env: requirements.txt
-	rm -rf $(PYTHON_ENV)
-	virtualenv $(PYTHON_ENV)
+	python3 -m venv $(PYTHON_ENV)
 	$(PIP) install -r $<
 
 node_modules: package.json
@@ -35,11 +34,11 @@ node_modules: package.json
 
 install: env node_modules
 
-devserver: install
+devserver:
 	$(PYTHON) website.py
 
 watch:
-	$(WEBPACK) --watch
+	npm start
 
 fontopen:
 	${CURL} --output .fontello --form "config=@${FONTELLO_DIR}/config.json" ${FONTELLO_HOST}

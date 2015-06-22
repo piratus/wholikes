@@ -8,9 +8,10 @@ const DEBUG = process.env.NODE_ENV !== 'production';
 
 
 const PLUGINS = [
+  new webpack.NoErrorsPlugin(),
   new WebpackNotifierPlugin({name: 'WhoLikes', alwaysNotify: true}),
   new webpack.DefinePlugin({
-    '__DEBUG__': DEBUG,
+    __DEBUG__: DEBUG,
     'process.env': {
       NODE_ENV: JSON.stringify(DEBUG ? 'development' : 'production')
     }
@@ -27,16 +28,22 @@ const PLUGINS_PROD = [
     compress: {
       warnings: false
     }
-  }),
+  })
 ];
 
 
+const ENTRY = DEBUG ? [
+  'webpack-dev-server/client?http://localhost:7777',
+  'webpack/hot/only-dev-server'
+] : [];
+
+
 module.exports = {
-  devtool: DEBUG ? 'eval' : null,
+  devtool: DEBUG ? '#inline-source-map' : 'source-map',
   debug: DEBUG,
   progress: true,
 
-  entry: './static/js/app.js',
+  entry: ENTRY.concat(['./static/js/app.js']),
 
   output: {
     path: './static/dist',
@@ -56,7 +63,7 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         include: path.join(__dirname, 'static/js'),
-        loader: 'babel?cacheDirectory&optional[]=runtime'
+        loader: (DEBUG ? 'react-hot!' : '') + 'babel?cacheDirectory&presets[]=react&presets[]=es2015&presets[]=stage-1'
       },
       {
         test: /\.sass$/,
@@ -71,5 +78,13 @@ module.exports = {
         loader: 'url?limit=100000'
       }
     ]
+  },
+
+  devServer: {
+    contentBase: './static/dist',
+    port: 7777,
+    hot: true,
+    inline: true,
+    noInfo: true,
   },
 };
