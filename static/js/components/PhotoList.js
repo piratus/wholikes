@@ -1,9 +1,9 @@
-import React from 'react';
-import Immutable from 'immutable';
-import cx from 'classnames';
+import React from 'react'
+import Immutable from 'immutable'
+import cx from 'classnames'
 
-import Icon from 'ui/Icon';
-import PropTypes from '../utils/PropTypes';
+import Icon from 'ui/Icon'
+import PropTypes from '../utils/PropTypes'
 
 
 class Photo extends React.Component {
@@ -24,27 +24,27 @@ class Photo extends React.Component {
   };
 
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   handleClick = (event)=> {
-    event.preventDefault();
-    this.props.onClick(this.props.photo, event.metaKey);
+    event.preventDefault()
+    this.props.onClick(this.props.photo, event.metaKey)
   };
 
   render() {
-    const {photo, size, selected} = this.props;
+    const {photo, size, selected} = this.props
     const className = cx('photo', {
       'with-data': photo.loaded,
       selected,
-    });
+    })
 
     return (
       <li className={className} onClick={this.handleClick}>
         <img src={photo.thumbnail} width={size} height={size} />
         <span className="likes">{photo.likes}</span>
       </li>
-    );
+    )
   }
 }
 
@@ -62,41 +62,41 @@ class PhotoList extends React.Component {
   };
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       sorting: 'date',
       reversed: false,
-    };
+    }
   }
 
   handleLoadMore = (event)=> {
-    event.preventDefault();
-    this.context.actions.photos.fetch();
+    event.preventDefault()
+    this.context.actions.photos.fetch()
   };
 
   handleSortByDate = (event)=> {
-    event.preventDefault();
-    this.setState({sorting: 'date', reversed: false});
+    event.preventDefault()
+    this.setState({sorting: 'date', reversed: false})
   };
 
   handleSortMostLikes = (event)=> {
-    event.preventDefault();
-    this.setState({sorting: 'likes', reversed: true});
+    event.preventDefault()
+    this.setState({sorting: 'likes', reversed: true})
   };
 
   handleSortLeastLikes = (event)=> {
-    event.preventDefault();
-    this.setState({sorting: 'likes', reversed: false});
+    event.preventDefault()
+    this.setState({sorting: 'likes', reversed: false})
   };
 
   render() {
-    let items = this.props.items.toIndexedSeq();
-    let {sorting, reversed} = this.state;
+    let items = this.props.items.toIndexedSeq()
+    let {sorting, reversed} = this.state
     if (sorting === 'likes') {
-      items = items.sortBy((photo)=> photo.likes);
+      items = items.sortBy((photo)=> photo.likes)
     }
     if (reversed) {
-      items = items.reverse();
+      items = items.reverse()
     }
     return (<div className="photo-list">
       <dl className="sub-nav">
@@ -125,9 +125,9 @@ class PhotoList extends React.Component {
           </button>
         </li>
       </ul>
-    </div>);
+    </div>)
   }
 }
 
 
-export default PhotoList;
+export default PhotoList

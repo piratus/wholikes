@@ -1,11 +1,11 @@
-import React from 'react';
+import React from 'react'
 
 
 export default class LoginView extends React.Component {
 
   onClick(event) {
-    event.preventDefault();
-    window.location = '/login';
+    event.preventDefault()
+    window.location = '/login'
   }
 
   render() {
@@ -17,6 +17,6 @@ export default class LoginView extends React.Component {
           </a>
         </div>
       </div>
-    );
+    )
   }
 }

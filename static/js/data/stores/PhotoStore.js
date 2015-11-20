@@ -1,7 +1,7 @@
-import {Store} from 'minimal-flux';
-import {Record, Map, OrderedMap, Set} from 'immutable';
+import {Store} from 'minimal-flux'
+import {Record, Map, OrderedMap, Set} from 'immutable'
 
-import {load} from '../LocalStorage';
+import {load} from '../LocalStorage'
 
 
 const BasePhoto = new Record({
@@ -11,7 +11,7 @@ const BasePhoto = new Record({
   likes: 0,
   comments: 0,
   loaded: false
-});
+})
 
 
 class Photo extends BasePhoto {
@@ -23,7 +23,7 @@ class Photo extends BasePhoto {
       thumbnail: attrs.images.thumbnail.url,
       likes: attrs.likes.count,
       comments: attrs.comments.count
-    });
+    })
   }
 
 }
@@ -32,45 +32,45 @@ class Photo extends BasePhoto {
 export default class PhotoStore extends Store {
 
   constructor(props) {
-    super(props);
+    super(props)
 
     let photos = load('photos')
-      .map((item) => [item.id, new Photo(item)]);
+      .map((item) => [item.id, new Photo(item)])
 
     let likes = Object.entries(load('likes', {}))
-      .map(([key, value]) => [key, new Set(value)]);
+      .map(([key, value]) => [key, new Set(value)])
 
     this.state = {
       photos: new OrderedMap(photos),
       likes: new Map(likes)
-    };
+    }
 
-    this.handleAction('photos.receive', this.handleReceive);
-    this.handleAction('photos.fetchLikes', this.handleFetchLikes);
-    this.handleAction('photos.receiveLikes', this.handleReceiveLikes);
+    this.handleAction('photos.receive', this.handleReceive)
+    this.handleAction('photos.fetchLikes', this.handleFetchLikes)
+    this.handleAction('photos.receiveLikes', this.handleReceiveLikes)
   }
 
   handleFetch() {}
 
   handleReceive(data) {
-    let newItems = data.map((item)=> [item.id, new Photo(item)]);
-    this.setState({photos: this.state.photos.merge(newItems)});
+    let newItems = data.map((item)=> [item.id, new Photo(item)])
+    this.setState({photos: this.state.photos.merge(newItems)})
   }
 
   handleFetchLikes() {}
 
   handleReceiveLikes({id, data}) {
-    let {photos, likes} = this.state;
+    let {photos, likes} = this.state
     this.setState({
       photos: photos.setIn([id, 'loaded'], true),
       likes: likes.set(id, new Set(data.map((item)=> item.id)))
-    });
+    })
   }
 
   save() {
-    let {photos, likes} = this.state;
-    localStorage.photos = JSON.stringify(photos.toArray());
-    localStorage.likes = JSON.stringify(likes.toJS());
+    let {photos, likes} = this.state
+    localStorage.photos = JSON.stringify(photos.toArray())
+    localStorage.likes = JSON.stringify(likes.toJS())
   }
 
 }

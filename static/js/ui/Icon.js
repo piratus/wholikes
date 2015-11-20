@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 
 export default class Icon extends React.Component {
@@ -8,7 +8,7 @@ export default class Icon extends React.Component {
   };
 
   render() {
-    let {name} = this.props;
-    return <span className={`icon-${name}`} />;
+    let {name} = this.props
+    return <span className={`icon-${name}`} />
   }
 }

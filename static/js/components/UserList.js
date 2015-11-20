@@ -1,6 +1,6 @@
-import React from 'react';
-import Immutable from 'immutable';
-import cx from 'classnames';
+import React from 'react'
+import Immutable from 'immutable'
+import cx from 'classnames'
 
 
 class User extends React.Component {
@@ -16,16 +16,16 @@ class User extends React.Component {
   };
 
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   handleClick = (event)=> {
-    event.preventDefault();
-    this.props.onClick(this.props.user, event.metaKey);
+    event.preventDefault()
+    this.props.onClick(this.props.user, event.metaKey)
   };
 
   render() {
-    let {user, selected} = this.props;
+    let {user, selected} = this.props
 
     return (
       <li className={cx('user', {selected})} onClick={this.handleClick}>
@@ -33,7 +33,7 @@ class User extends React.Component {
         <span className="name">{user.username}</span>
         <span className="likes">{user.likes}</span>
       </li>
-    );
+    )
   }
 
 }
@@ -48,27 +48,27 @@ class UserList extends React.Component {
   };
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       sorting: 'likes'
-    };
+    }
   }
 
   handleSortMostLikes = (event)=> {
-    event.preventDefault();
-    this.setState({sorting: 'likes'});
+    event.preventDefault()
+    this.setState({sorting: 'likes'})
   };
 
   handleSortLeastLikes = (event)=> {
-    event.preventDefault();
-    this.setState({sorting: '-likes'});
+    event.preventDefault()
+    this.setState({sorting: '-likes'})
   };
 
   render() {
-    let {sorting} = this.state;
+    let {sorting} = this.state
     let users = this.props.users.sortBy((user)=>
       (sorting === 'likes') ? -user.likes : user.likes
-    );
+    )
 
     return (
       <div className="user-list">
@@ -94,9 +94,9 @@ class UserList extends React.Component {
           )}
         </ul>
       </div>
-    );
+    )
   }
 }
 
 
-export default UserList;
+export default UserList

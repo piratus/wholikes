@@ -1,10 +1,10 @@
 /* eslint-env node */
-const path = require('path');
-const webpack = require('webpack');
-const WebpackNotifierPlugin = require('webpack-notifier');
+const path = require('path')
+const webpack = require('webpack')
+const WebpackNotifierPlugin = require('webpack-notifier')
 
 
-const DEBUG = process.env.NODE_ENV !== 'production';
+const DEBUG = process.env.NODE_ENV !== 'production'
 
 
 const PLUGINS = [
@@ -16,9 +16,9 @@ const PLUGINS = [
       NODE_ENV: JSON.stringify(DEBUG ? 'development' : 'production')
     }
   })
-];
+]
 
-const PLUGINS_DEV = [];
+const PLUGINS_DEV = []
 
 const PLUGINS_PROD = [
   new webpack.optimize.DedupePlugin(),
@@ -29,13 +29,13 @@ const PLUGINS_PROD = [
       warnings: false
     }
   })
-];
+]
 
 
 const ENTRY = DEBUG ? [
   'webpack-dev-server/client?http://localhost:7777',
   'webpack/hot/only-dev-server'
-] : [];
+] : []
 
 
 module.exports = {
@@ -87,4 +87,4 @@ module.exports = {
     inline: true,
     noInfo: true,
   },
-};
+}

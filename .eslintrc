@@ -6,5 +6,8 @@
   },
   "globals": {
     "__DEBUG__": true
+  },
+  "rules": {
+    "semi": [2, "never"]
   }
 }

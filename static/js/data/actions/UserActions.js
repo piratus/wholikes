@@ -1,44 +1,44 @@
-import Flux from 'minimal-flux';
-import {client} from '../Client';
+import Flux from 'minimal-flux'
+import {client} from '../Client'
 
 
 export default class UserActions extends Flux.Actions {
 
   init(user) {
-    this.dispatch('init', user);
+    this.dispatch('init', user)
 
-    this.fetchProfile();
+    this.fetchProfile()
   }
 
   fetchProfile() {
-    this.dispatch('fetchProfile');
+    this.dispatch('fetchProfile')
     client.getProfile().then((profile)=> {
-      this.receiveProfile(profile);
-    });
+      this.receiveProfile(profile)
+    })
   }
 
   receiveProfile(profile) {
-    this.dispatch('receiveProfile', profile);
+    this.dispatch('receiveProfile', profile)
   }
 
   fetchFollowedBy() {
-    this.dispatch('fetchFollowedBy');
+    this.dispatch('fetchFollowedBy')
     client.getFollowedBy().then((followedBy)=> {
-      this.receiveProfile(followedBy);
-    });
+      this.receiveProfile(followedBy)
+    })
   }
   receiveFollowedBy(followedBy) {
-    this.dispatch('receiveFollowedBy', followedBy);
+    this.dispatch('receiveFollowedBy', followedBy)
   }
 
   fetchFollows() {
-    this.dispatch('fetchFollows');
+    this.dispatch('fetchFollows')
     client.getFollows().then((follows)=> {
-      this.receiveProfile(follows);
-    });
+      this.receiveProfile(follows)
+    })
   }
 
   receiveFollows(follows) {
-    this.dispatch('receiveFollows', follows);
+    this.dispatch('receiveFollows', follows)
   }
 }

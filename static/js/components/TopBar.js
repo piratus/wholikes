@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 
 export default class TopBar extends React.Component {
@@ -8,14 +8,14 @@ export default class TopBar extends React.Component {
   };
 
   handleLogout(event) {
-    event.preventDefault();
-    window.location = '/logout';
+    event.preventDefault()
+    window.location = '/logout'
   }
 
   render() {
-    let {user} = this.props;
-    let {mediaLoaded: loaded, mediaTotal: total} = user;
-    let mediaLabel = (loaded === total) ? loaded : `${loaded}/${total}`;
+    let {user} = this.props
+    let {mediaLoaded: loaded, mediaTotal: total} = user
+    let mediaLabel = (loaded === total) ? loaded : `${loaded}/${total}`
 
     return (
       <div className="top-bar">
@@ -36,7 +36,7 @@ export default class TopBar extends React.Component {
           </ul>
         </section>
       </div>
-    );
+    )
   }
 
 }
