@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "build": "BABEL_ENV=production NODE_ENV=production webpack --progress",
-    "start": "webpack-dev-server --hot"
+    "start": "webpack-dev-server --hot --inline"
   },
   "author": {
     "name": "Andrew Popovych",
@@ -45,5 +45,10 @@
     "webpack-dev-server": "^1.10.1",
     "webpack-notifier": "^1.2.1"
   },
-  "babel": {}
+  "babel": {
+    "presets": ["react", "es2015", "stage-1"]
+  },
+  "devDependencies": {
+    "react-hot-loader": "^1.3.0"
+  }
 }

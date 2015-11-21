@@ -15,8 +15,8 @@ const CurrentUser = new Record({
   mediaLoaded: 0,
   mediaTotal: 0,
 
-  totalFollows: 0,
-  totalFollowedBy: 0
+  follows: 0,
+  followedBy: 0
 })
 
 
@@ -44,28 +44,20 @@ export default class UserStore extends Store {
       users: new Map(users)
     }
 
-    this.handleAction('users.init', this.handleInit)
     this.handleAction('users.receiveProfile', this.handleReceiveProfile)
     this.handleAction('users.receiveFollows', this.handleReceiveFollows)
     this.handleAction('photos.receive', this.handleReceivePhotos)
     this.handleAction('photos.receiveLikes', this.handleReceiveLikes)
   }
 
-  handleInit(data) {
-    this.setState({self: new CurrentUser(data)})
-  }
-
   handleReceiveProfile({data: profile}) {
-    let {counts: {media, follows, followedBy}} = profile
-    let {self} = this.state
-
-    self = self.withMutations((self)=> {
-      return self.set('mediaTotal', media)
-                 .set('totalFollows', follows)
-                 .set('totalFollowedBy', followedBy)
-    })
-
-    this.setState({self})
+    const {counts: {media, follows, followedBy}} = profile
+    this.setState({self: new CurrentUser({
+      ...profile,
+      follows,
+      followedBy,
+      mediaTotal: media,
+    })})
   }
 
   handleReceiveFollows({data}) {

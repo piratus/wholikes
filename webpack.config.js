@@ -9,18 +9,15 @@ const DEBUG = process.env.NODE_ENV !== 'production'
 
 const PLUGINS = [
   new webpack.NoErrorsPlugin(),
-  new WebpackNotifierPlugin({name: 'WhoLikes', alwaysNotify: true}),
-  new webpack.DefinePlugin({
-    __DEBUG__: DEBUG,
-    'process.env': {
-      NODE_ENV: JSON.stringify(DEBUG ? 'development' : 'production')
-    }
-  })
+  new WebpackNotifierPlugin({name: 'WhoLikes', alwaysNotify: true})
 ]
 
 const PLUGINS_DEV = []
 
 const PLUGINS_PROD = [
+  new webpack.DefinePlugin({
+    'process.env.NODE_ENV': '"production"'
+  }),
   new webpack.optimize.DedupePlugin(),
   new webpack.optimize.OccurenceOrderPlugin(true),
   new webpack.optimize.UglifyJsPlugin({
@@ -49,6 +46,7 @@ module.exports = {
     path: './static/dist',
     filename: 'app.bundle.js',
     pathinfo: DEBUG,
+    publicPath: DEBUG ? 'http://localhost:7777/' : '/static/dist',
   },
 
   resolve: {
@@ -61,9 +59,9 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.js$/,
         include: path.join(__dirname, 'static/js'),
-        loader: (DEBUG ? 'react-hot!' : '') + 'babel?cacheDirectory&presets[]=react&presets[]=es2015&presets[]=stage-1'
+        loader: (DEBUG ? 'react-hot!' : '') + 'babel?cacheDirectory'
       },
       {
         test: /\.sass$/,
@@ -75,7 +73,7 @@ module.exports = {
       },
       {
         test: /\.woff$/,
-        loader: 'url?limit=100000'
+        loader: 'url'
       }
     ]
   },

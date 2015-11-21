@@ -4,12 +4,6 @@ import {client} from '../Client'
 
 export default class UserActions extends Flux.Actions {
 
-  init(user) {
-    this.dispatch('init', user)
-
-    this.fetchProfile()
-  }
-
   fetchProfile() {
     this.dispatch('fetchProfile')
     client.getProfile().then((profile)=> {

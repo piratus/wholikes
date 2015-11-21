@@ -21,12 +21,10 @@ static:
 	npm run-script build
 
 clean:
-	rm -rf $(DIST_DIR)
-	rm -rf $(PYTHON_ENV)
 	rm -rf node_modules
 
 env: requirements.txt
-	python3 -m venv $(PYTHON_ENV)
+	test -d $(PYTHON_ENV) || python3 -m venv $(PYTHON_ENV)
 	$(PIP) install -r $<
 
 node_modules: package.json

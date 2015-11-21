@@ -10,23 +10,20 @@ import Application from 'components/Application'
 import LoginView from 'components/LoginView'
 
 
-function init({accessToken, user}) {
-  if (!accessToken) {
-    React.render(
-      React.createElement(LoginView),
-      document.body
-    )
-  }
-  else {
-    client.init({accessToken: accessToken})
-    flux.actions.users.init(user)
-    flux.actions.photos.fetch()
+const {accessToken, error} = window.APP_SETTINGS
 
-    React.render(
-      <Application flux={flux} />,
-      document.body
-    )
-  }
+if (!accessToken) {
+  React.render(
+    <LoginView error={error} />,
+    document.body
+  )
 }
+else {
+  client.init({accessToken})
+  flux.actions.users.fetchProfile()
 
-init(window.APP_SETTINGS)
+  React.render(
+    <Application flux={flux} error={error} />,
+    document.body
+  )
+}
