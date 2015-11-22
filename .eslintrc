@@ -1,10 +1,72 @@
 {
-  "extends": "@piratus/piratus/react",
+  "root": true,
+  "extends": "eslint:recommended",
+  "parser": "babel-eslint",
+  "plugins": [
+    "eslint-plugin-react"
+  ],
   "env": {
-    "browser": true,
-    "node": true
+    "es6": true,
+    "browser": true
+  },
+  "ecmaFeatures": {
+    "modules": true,
+    "jsx": true
   },
   "rules": {
-    "semi": [2, "never"]
+    "comma-dangle": [2, "always-multiline"],
+    "semi": [2, "never"],
+    "quotes": [2, "single"],
+    "jsx-quotes": [2, "prefer-double"],
+
+    "no-var": 2,
+
+    "react/jsx-uses-react": 2,
+    "react/jsx-uses-vars": 2,
+
+    "react/jsx-no-bind": 1,
+    "react/jsx-no-undef": 2,
+    "react/no-unknown-property": 2,
+    "react/prefer-es6-class": 2,
+    "react/prop-types": 2,
+    "react/react-in-jsx-scope": 2,
+    "react/sort-comp": [2, {
+      "order": [
+        "lifecycle",
+        "everything-else",
+        "handlers",
+        "renderers"
+      ],
+      "groups": {
+        "lifecycle": [
+          "displayName",
+          "mixins",
+          "propTypes",
+          "defaultProps",
+          "getDefaultProps",
+          "getInitialState",
+          "contextTypes",
+          "childContextTypes",
+          "constructor",
+          "state",
+          "getChildContext",
+          "componentWillMount",
+          "componentDidMount",
+          "componentWillReceiveProps",
+          "shouldComponentUpdate",
+          "componentWillUpdate",
+          "componentDidUpdate",
+          "componentWillUnmount"
+        ],
+        "handlers": [
+          "/^on.+$/",
+          "/^handle.+$/"
+        ],
+        "renderers": [
+          "/^render.+$/",
+          "render"
+        ]
+      }
+    }]
   }
 }

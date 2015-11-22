@@ -9,30 +9,23 @@ const DEBUG = process.env.NODE_ENV !== 'production'
 
 const PLUGINS = [
   new webpack.NoErrorsPlugin(),
-  new WebpackNotifierPlugin({name: 'WhoLikes', alwaysNotify: true})
+  new WebpackNotifierPlugin({name: 'WhoLikes', alwaysNotify: true}),
 ]
 
 const PLUGINS_DEV = []
 
 const PLUGINS_PROD = [
   new webpack.DefinePlugin({
-    'process.env.NODE_ENV': '"production"'
+    'process.env.NODE_ENV': '"production"',
   }),
   new webpack.optimize.DedupePlugin(),
   new webpack.optimize.OccurenceOrderPlugin(true),
   new webpack.optimize.UglifyJsPlugin({
-    sourceMap: false,
     compress: {
-      warnings: false
-    }
-  })
+      warnings: false,
+    },
+  }),
 ]
-
-
-const ENTRY = DEBUG ? [
-  'webpack-dev-server/client?http://localhost:7777',
-  'webpack/hot/only-dev-server'
-] : []
 
 
 module.exports = {
@@ -40,18 +33,18 @@ module.exports = {
   debug: DEBUG,
   progress: true,
 
-  entry: ENTRY.concat(['./static/js/app.js']),
+  entry: ['./static/js/app.js'],
 
   output: {
     path: './static/dist',
     filename: 'app.bundle.js',
     pathinfo: DEBUG,
-    publicPath: DEBUG ? 'http://localhost:7777/' : '/static/dist',
+    publicPath: DEBUG ? 'http://localhost:7777/static/' : '/static/',
   },
 
   resolve: {
     root: path.join(__dirname, 'static/js'),
-    extensions: ['', '.js']
+    extensions: ['', '.js'],
   },
 
   plugins: PLUGINS.concat(DEBUG ? PLUGINS_DEV : PLUGINS_PROD),
@@ -60,26 +53,29 @@ module.exports = {
     loaders: [
       {
         test: /\.js$/,
-        include: path.join(__dirname, 'static/js'),
-        loader: (DEBUG ? 'react-hot!' : '') + 'babel?cacheDirectory'
+        include: [
+          path.join(__dirname, 'static/js'),
+          //path.join(__dirname, 'node_modules/react-icons'),
+        ],
+        loader: (DEBUG ? 'react-hot!' : '') + 'babel?cacheDirectory',
       },
       {
         test: /\.sass$/,
-        loader: 'style!css!autoprefixer!sass?indentedSyntax&includePaths[]=./static/styles'
+        loader: 'style!css!autoprefixer!sass?sourceMap&indentedSyntax&includePaths[]=./static/styles',
       },
       {
         test: /\.scss$/,
-        loader: 'style!css!autoprefixer!sass&includePaths[]=./static/styles'
+        loader: 'style!css!autoprefixer!sass?sourceMap',
       },
       {
-        test: /\.woff$/,
-        loader: 'url'
-      }
-    ]
+        test: /\.(woff|png)$/,
+        loader: 'url',
+      },
+    ],
   },
 
   devServer: {
-    contentBase: './static/dist',
+    contentBase: './static',
     port: 7777,
     hot: true,
     inline: true,

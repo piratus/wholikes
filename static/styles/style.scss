@@ -1,0 +1,61 @@
+@import "mdl/main";
+
+@import "type";
+@import "layout";
+
+
+html, body, #root {
+  height: 100%;
+}
+
+#root {
+  background: lightgray;
+}
+
+.mdl-card {
+  width: 100%;
+  min-height: initial;
+
+  @at-root &__text-block {
+    padding: 0 1em;
+    margin-bottom: 1em;
+  }
+
+  @at-root &__actions--right > * {
+    float: right;
+  }
+}
+
+.mdl-alert {
+  @include shadow-4dp();
+  height: auto;
+  padding: 1em;
+  border-radius: 2px;
+  color: unquote("rgb(#{$color-dark-contrast})");
+  background-color: unquote("rgb(#{$palette-red-500})");
+}
+
+.mdl-card--login {
+  box-sizing: border-box;
+  max-width: 20em;
+  margin: 5em auto;
+  padding: 1em 1em 0;
+
+  @include shadow-4dp();
+
+  text-align: center;
+
+  .mdl-card__title {
+    justify-content: center;
+
+    .icon:before {
+      font-size: 2.5em;
+      color: unquote("rgb(#{$palette-red-700})");
+    }
+  }
+
+  .mdl-button--wide {
+    min-width: 10em;
+  }
+}
+

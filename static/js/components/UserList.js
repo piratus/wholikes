@@ -1,42 +1,7 @@
 import React from 'react'
 import Immutable from 'immutable'
 import cx from 'classnames'
-
-
-class User extends React.Component {
-
-  static propTypes = {
-    user: React.PropTypes.instanceOf(Immutable.Record).isRequired,
-    selected: React.PropTypes.bool,
-    onClick: React.PropTypes.func.isRequired
-  };
-
-  static defaultProps = {
-    selected: false
-  };
-
-  constructor(props) {
-    super(props)
-  }
-
-  handleClick = (event)=> {
-    event.preventDefault()
-    this.props.onClick(this.props.user, event.metaKey)
-  };
-
-  render() {
-    let {user, selected} = this.props
-
-    return (
-      <li className={cx('user', {selected})} onClick={this.handleClick}>
-        <img src={user.profilePicture} />
-        <span className="name">{user.username}</span>
-        <span className="likes">{user.likes}</span>
-      </li>
-    )
-  }
-
-}
+import User from '../ui/User'
 
 
 class UserList extends React.Component {
@@ -85,12 +50,13 @@ class UserList extends React.Component {
             </a>
           </dd>
         </dl>
-        <ul>
+        <ul className="list-unstyled">
           {users.toArray().map(user =>
-            <User key={user.id}
-                  user={user}
-                  selected={this.props.selected.includes(user)}
-                  onClick={this.props.onSelect} />
+            <li key={user.id}>
+              <User {...user}
+                    selected={this.props.selected.includes(user)}
+                    onClick={this.props.onSelect} />
+            </li>
           )}
         </ul>
       </div>

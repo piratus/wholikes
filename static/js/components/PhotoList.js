@@ -33,17 +33,17 @@ class Photo extends React.Component {
   };
 
   render() {
-    const {photo, size, selected} = this.props
+    const {photo, selected} = this.props
     const className = cx('photo', {
       'with-data': photo.loaded,
       selected,
     })
 
     return (
-      <li className={className} onClick={this.handleClick}>
-        <img src={photo.thumbnail} width={size} height={size} />
-        <span className="likes">{photo.likes}</span>
-      </li>
+      <div className={className} onClick={this.handleClick}>
+        <img src={photo.thumbnail} />
+        <span className="photo-likes icon icon-heart">{photo.likes}</span>
+      </div>
     )
   }
 }
@@ -79,14 +79,13 @@ class PhotoList extends React.Component {
     this.setState({sorting: 'date', reversed: false})
   };
 
-  handleSortMostLikes = (event)=> {
+  handleSortByLikes = (event)=> {
     event.preventDefault()
-    this.setState({sorting: 'likes', reversed: true})
-  };
-
-  handleSortLeastLikes = (event)=> {
-    event.preventDefault()
-    this.setState({sorting: 'likes', reversed: false})
+    const {sorting, reversed} = this.state
+    this.setState({
+      sorting: 'likes',
+      reversed: (sorting !== 'likes' ? false : !reversed)
+    })
   };
 
   render() {
@@ -98,34 +97,31 @@ class PhotoList extends React.Component {
     if (reversed) {
       items = items.reverse()
     }
-    return (<div className="photo-list">
-      <dl className="sub-nav">
-        <dt>Order:</dt>
-        <dd className={cx({active: sorting === 'date'})}>
-          <a href="#" onClick={this.handleSortByDate}>By date</a>
-        </dd>
-        <dd className={cx({active: sorting === 'likes' && reversed})}>
-          <a href="#" onClick={this.handleSortMostLikes}>Most likes</a>
-        </dd>
-        <dd className={cx({active: sorting === 'likes' && !reversed})}>
-          <a href="#" onClick={this.handleSortLeastLikes}>Least likes</a>
-        </dd>
-      </dl>
-      <ul>
-        {Array.from(items).map(item =>
-          <Photo key={item.id}
-                 photo={item}
-                 size={75}
-                 selected={this.props.selected.includes(item)}
-                 onClick={this.props.onSelect} />
-        )}
-        <li>
-          <button onClick={this.handleLoadMore}>
-            <Icon name="refresh" />
+    return (
+      <section className="photo-list">
+        <div className="btn-group">
+          <button className={cx('btn btn-secondary btn-sm', {active: sorting === 'date'})} type="button" onClick={this.handleSortByDate}>
+            Date {(sorting === 'date') && <i className="icon icon-down" />}
           </button>
-        </li>
-      </ul>
-    </div>)
+          <button className={cx('btn btn-secondary btn-sm', {active: sorting === 'likes'})} type="button" onClick={this.handleSortByLikes}>
+            Likes {(sorting === 'likes') && <i className={cx('icon', {'icon-up': reversed, 'icon-down': !reversed})} />}
+          </button>
+        </div>
+
+        <button className="btn btn-sm btn-icon btn-secondary icon-dot-3 pull-right" onClick={this.handleLoadMore} />
+
+        <ul className="list-unstyled list-inline">
+          {Array.from(items).map(item =>
+            <li key={item.id}>
+              <Photo photo={item}
+                     size={75}
+                     selected={this.props.selected.includes(item)}
+                     onClick={this.props.onSelect} />
+            </li>
+          )}
+        </ul>
+      </section>
+    )
   }
 }
 

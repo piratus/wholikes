@@ -1,9 +1,14 @@
-import {camelCase, snakeCase, object} from 'lodash'
+import camelCase from 'lodash.camelcase'
+import snakeCase from 'lodash.snakecase'
+import zipObject from 'lodash.zipobject'
 
 
 const API_ROOT = 'https://api.instagram.com/v1'
-const RECENT_MEDIA_URL = '/users/self/media/recent/'
 
+
+function uniqueId() {
+  return Number(new Date())
+}
 
 function makeScriptElement(url, params) {
   let query = Object.entries(params)
@@ -23,55 +28,37 @@ function parseResponse(obj) {
   let values = Object.entries(obj).map(([key, value])=>
       [camelCase(key), getValue(value)]
   )
-  return object(values)
+  return zipObject(values)
 }
 
 
-export class Client {
+export default class Client {
 
-  init({accessToken}) {
+  constructor(accessToken) {
     this.accessToken = accessToken
   }
 
   fetch(url, params = {}) {
-    let random = Number(Math.round(Math.random() * 1000))
-    let request = {
+    const request = {
       ...params,
       accessToken: this.accessToken,
-      callback: `callback_${Number(new Date())}_${random}`
+      callback: `callback_${uniqueId()}`,
     }
+    const scriptEl = makeScriptElement(url, request)
 
     return new Promise((resolve, reject)=> {
       window[request.callback] = (response)=> {
-        let {meta, data, pagination} = parseResponse(response)
-        if (meta.code === 200) { resolve({data, pagination}) }
-        else { reject(meta) }
+        response = parseResponse(response)
+
+        if (response.meta.code === 200) { resolve(response) }
+        else { reject(response.meta) }
+
         delete window[request.callback]
+        document.body.removeChild(scriptEl)
       }
 
-      document.body.appendChild(makeScriptElement(url, request))
+      document.body.appendChild(scriptEl)
     })
   }
 
-  getPhotos(maxId) {
-    return this.fetch(RECENT_MEDIA_URL, {count: 30, maxId})
-  }
-
-  getLikes(id) {
-    return this.fetch(`/media/${id}/likes`)
-  }
-
-  getProfile(id = 'self') {
-    return this.fetch(`/users/${id}`)
-  }
-
-  getFollowedBy(id = 'self') {
-    return this.fetch(`/users/${id}/followed-by`)
-  }
-
-  getFollows(id = 'self') {
-    return this.fetch(`/users/${id}/follows`)
-  }
 }
-
-export const client = new Client()

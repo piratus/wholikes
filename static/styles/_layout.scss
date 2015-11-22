@@ -1,0 +1,20 @@
+.application {
+  @extend .mdl-layout;
+  @extend .mdl-layout--fixed-header;
+  //@extend .mdl-layout--fixed-drawer;
+
+  @at-root &__header { @extend .mdl-layout__header; }
+  @at-root &__header-row { @extend .mdl-layout__header-row; }
+  @at-root &__header-spacer { @extend .mdl-layout-spacer; }
+
+  @at-root &__title { @extend .mdl-layout__title; }
+
+  .mdl-button--application-drawer {
+    @extend .mdl-layout__drawer-button;
+    line-height: 1.7;
+  }
+
+  @at-root &__obfuscator { @extend .mdl-layout__obfuscator; }
+  @at-root &__content { @extend .mdl-layout__content; }
+}
+

@@ -1,29 +1,33 @@
 import 'babel-polyfill'
-import '../styles/app.sass'
+import '../styles/style.scss'
 
 import React from 'react'
+import ReactDOM from 'react-dom'
+import {Provider} from 'react-redux'
 
-import {client} from 'data/Client'
-import flux from 'flux'
-
-import Application from 'components/Application'
-import LoginView from 'components/LoginView'
+import configureStore from './configureStore'
+import {fetchProfile, fetchFollowers, fetchPhotos} from './actions'
+import Root from './containers/Root'
 
 
 const {accessToken, error} = window.APP_SETTINGS
 
-if (!accessToken) {
-  React.render(
-    <LoginView error={error} />,
-    document.body
-  )
-}
-else {
-  client.init({accessToken})
-  flux.actions.users.fetchProfile()
+const store = configureStore({
+  auth: {accessToken, error},
+})
 
-  React.render(
-    <Application flux={flux} error={error} />,
-    document.body
-  )
+if (accessToken) {
+  store.dispatch(fetchProfile())
+    .then(()=> Promise.all([
+      store.dispatch(fetchFollowers()),
+      store.dispatch(fetchPhotos()),
+    ]))
 }
+
+
+ReactDOM.render(
+  <Provider store={store}>
+    <Root />
+  </Provider>,
+  document.getElementById('root')
+)
