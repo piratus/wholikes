@@ -1,7 +1,14 @@
-@import "mdl/main";
+@import "variables";
+
+@import "mdl/material";
 
 @import "type";
 @import "layout";
+
+@import "components/app-drawer";
+@import "components/spinner";
+@import "components/photo-grid";
+@import "components/login-form";
 
 
 html, body, #root {
@@ -9,8 +16,10 @@ html, body, #root {
 }
 
 #root {
-  background: lightgray;
+  background: $ui-color-dark;
 }
+
+.mdl-menu { clip: auto;  }
 
 .mdl-card {
   width: 100%;
@@ -33,29 +42,5 @@ html, body, #root {
   border-radius: 2px;
   color: unquote("rgb(#{$color-dark-contrast})");
   background-color: unquote("rgb(#{$palette-red-500})");
-}
-
-.mdl-card--login {
-  box-sizing: border-box;
-  max-width: 20em;
-  margin: 5em auto;
-  padding: 1em 1em 0;
-
-  @include shadow-4dp();
-
-  text-align: center;
-
-  .mdl-card__title {
-    justify-content: center;
-
-    .icon:before {
-      font-size: 2.5em;
-      color: unquote("rgb(#{$palette-red-700})");
-    }
-  }
-
-  .mdl-button--wide {
-    min-width: 10em;
-  }
 }
 

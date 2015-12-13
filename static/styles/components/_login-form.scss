@@ -1,0 +1,24 @@
+@import "../mixins";
+
+
+.mdl-card--login {
+  box-sizing: border-box;
+  max-width: 20em;
+  margin: 5em auto;
+  padding: 1em 1em 0;
+
+  @include shadow-4dp();
+
+  text-align: center;
+
+  .mdl-card__title {
+    justify-content: center;
+  }
+
+  .mdl-button--login {
+    @extend .mdl-button--raised;
+    @extend .mdl-button--primary;
+
+    min-width: 10em;
+  }
+}

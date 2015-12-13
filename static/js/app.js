@@ -17,11 +17,14 @@ const store = configureStore({
 })
 
 if (accessToken) {
-  store.dispatch(fetchProfile())
-    .then(()=> Promise.all([
-      store.dispatch(fetchFollowers()),
-      store.dispatch(fetchPhotos()),
-    ]))
+  const state = store.getState()
+  if (!state.user.id) {
+    store.dispatch(fetchProfile())
+      .then(()=> Promise.all([
+        store.dispatch(fetchFollowers()),
+        store.dispatch(fetchPhotos()),
+      ]))
+  }
 }
 
 

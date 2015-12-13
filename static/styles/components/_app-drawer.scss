@@ -1,0 +1,126 @@
+@import '../mixins';
+@import '../variables';
+
+
+
+
+.application-drawer {
+  display: flex;
+  flex-flow: column nowrap;
+
+  width: $app-drawer-width;
+  height: 100%;
+  max-height: 100%;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  box-sizing: border-box;
+  border-right: 1px solid $app-drawer-border-color;
+  background: $app-drawer-bg-color;
+
+  @include shadow-4dp();
+
+  // Transform offscreen.
+  transform: translateX(-$app-drawer-width - 10px);
+  transform-style: preserve-3d;
+  will-change: transform;
+
+  @include material-animation-default();
+  transition-property: transform;
+
+  color: $app-drawer-color;
+
+  overflow: visible;
+  overflow-y: auto;
+
+  z-index: 5;
+
+  &.is-visible {
+    transform: translateX(0);
+    & ~ .application__content.application__content {
+      overflow: hidden;
+    }
+  }
+
+  @media screen and (min-width: $layout-screen-size-threshold + 1px) {
+    .application--fixed-drawer > & {
+      transform: translateX(0);
+    }
+  }
+
+  @at-root &__title {
+    display: block;
+    position: relative;
+
+    @include typo-title();
+    font-weight: 400;
+    box-sizing: border-box;
+
+    line-height: $app-header-height-desktop;
+    padding-left: $app-header-indent-desktop;
+
+    @media screen and (max-width: $layout-screen-size-threshold) {
+      line-height: $app-header-height-mobile;
+      padding-left: $app-header-indent-mobile;
+    }
+
+    .icon {
+      color: $heart-color;
+      opacity: .5;
+    }
+  }
+
+  > .ui-menu {
+    flex-grow: 1;
+  }
+}
+
+
+// FIXME: This does not belong here
+.ui-menu {
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  justify-content: space-between;
+
+  @at-root &__link {
+    text-decoration: none;
+    font-family: $app-font-family;
+    font-weight: 500;
+    font-size: $app-drawer-menu-font-size;
+    margin: 0;
+
+    display: block;
+    flex-shrink: 0;
+    flex-grow: 0;
+    padding: 16px $app-header-indent-desktop;
+    color: $app-drawer-menu-color;
+
+    @media screen and (max-width: $layout-screen-size-threshold) {
+      padding: 16px $app-header-indent-mobile;
+    }
+
+    &:hover {
+      background-color: $app-drawer-menu-link-active-background;
+    }
+
+    > .icon {
+      margin-right: 1em;
+    }
+
+    &.is-active {
+      background-color: $app-drawer-menu-link-active-background;
+      color: $app-drawer-menu-link-active-color;
+    }
+
+  }
+
+  @at-root &__spacer {
+    flex-grow: 1;
+  }
+}

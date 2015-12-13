@@ -1,3 +1,17 @@
+@import '../../node_modules/material-design-lite/src/mixins';
+
 @mixin text-shadow() {
   text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3);
+}
+
+@mixin clearfix() {
+  &:before,
+  &:after {
+      content: " ";
+      display: table;
+  }
+
+  &:after {
+      clear: both;
+  }
 }

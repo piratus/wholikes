@@ -4,9 +4,10 @@ import {
   LOGIN, LOGOUT,
   FETCH_PROFILE_SUCCESS,
   FETCH_FOLLOWERS_SUCCESS,
+  FETCH_PHOTOS,
   FETCH_PHOTOS_SUCCESS,
+  FETCH_PHOTOS_FAIL,
 } from './actions'
-import {deleteCookie} from './utils'
 
 
 function user(state = {username: '', followedBy: []}, action) {
@@ -29,13 +30,11 @@ function user(state = {username: '', followedBy: []}, action) {
 function auth(state = {}, action) {
   switch (action.type) {
   case LOGIN:
-    window.location = window.APP_SETTINGS.REDIRECT_URL
     return {
       ...state,
       inProgress: true,
     }
   case LOGOUT:
-    deleteCookie('session')
     return {
       ...state,
       error: null,
@@ -47,10 +46,31 @@ function auth(state = {}, action) {
   }
 }
 
-function photos(state = [], action) {
+
+const photosState = {
+  all: [],
+  maxId: false,
+  inProgress: false,
+}
+
+function photos(state = photosState, action) {
   switch (action.type) {
+  case FETCH_PHOTOS:
+    return {
+      ...state,
+      inProgress: true,
+    }
   case FETCH_PHOTOS_SUCCESS:
-    return [...state, ...action.response.data]
+    return {
+      all: [...state.all, ...action.response.data],
+      inProgress: false,
+      maxId: action.response.pagination.nextMaxId,
+    }
+  case FETCH_PHOTOS_FAIL:
+    return {
+      ...state,
+      inProgress: false,
+    }
   default:
     return state
   }

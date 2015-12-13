@@ -1,50 +1,44 @@
 import React, {Component, PropTypes} from 'react'
+import MenuIcon from 'react-icons/md/menu'
 
 import Button from '../ui/Button'
-import MenuIcon from 'react-icons/lib/md/menu'
-import MoreIcon from 'react-icons/lib/md/more-vert'
+
 
 
 class AppHeader extends Component {
 
   static propTypes = {
-    user: PropTypes.shape({
-      username: PropTypes.string.isRequired,
-    }).isRequired,
-    onDrawer: PropTypes.func.isRequired,
-    onLogout: PropTypes.func.isRequired,
+    title: PropTypes.node,
+    spacer: PropTypes.bool,
+    children: PropTypes.element,
+    onMenuClick: PropTypes.func.isRequired,
+  }
+
+  static defaultProps = {
+    spacer: true,
   }
 
   constructor(props) {
     super(props)
   }
 
-  handleLogout = (event)=> {
+  handleMenuClick = (event)=> {
     event.preventDefault()
-    this.props.onLogout()
-  }
-
-  handleDrawer = (event)=> {
-    event.preventDefault()
-    this.props.onDrawer(event)
+    this.props.onMenuClick(event)
   }
 
   render() {
-    const {user} = this.props
+    const {title, spacer, children} = this.props
     return (
       <header className="application__header">
-        <Button mod="application-drawer"
-                onClick={this.handleDrawer}>
-          <MenuIcon />
+        <Button className="application__drawer-button"
+                onClick={this.handleMenuClick}>
+          <MenuIcon className="application__drawer-button-icon" />
         </Button>
         <div className="application__header-row">
-          <div className="application__title">{user.username}</div>
-
-          <div className="application__header-spacer" />
-
-          <Button mod="icon">
-            <MoreIcon />
-          </Button>
+          {title && <div className="application__title">{title}</div>}
+          {spacer && <div className="application__header-spacer" />}
+          {children}
         </div>
       </header>
 

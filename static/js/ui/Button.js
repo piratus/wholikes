@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import cx from 'classnames'
 
 import {noop} from '../utils'
 
@@ -15,6 +16,7 @@ class Button extends Component {
   }
 
   static defaultProps = {
+    className: 'mdl-button',
     onClick: noop,
     type: 'button',
   }
@@ -29,12 +31,12 @@ class Button extends Component {
   }
 
   render() {
-    const {className = '', mod = '', children, ...otherProps} = this.props
-    const modCls = mod.split(' ').map((name)=> `mdl-button--${name}`).join(' ')
+    const {className, mod, children, ...otherProps} = this.props
+    const cls = cx(className, mod && mod.split(' ').map((name)=> `${className}--${name}`))
 
     return (
       <button {...otherProps}
-              className={`mdl-button ${className} ${modCls}`}
+              className={cls}
               onClick={this.handleClick}>
         {children}
       </button>

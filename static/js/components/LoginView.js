@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 
 import Button from '../ui/Button'
+import Spinner from '../ui/Spinner'
 
 
 class LoginView extends Component {
@@ -36,14 +37,15 @@ class LoginView extends Component {
             <p className="text--lead">See who likes your Instagram photos the most</p>
           </div>
           <div className="mdl-card__text-block">
-            <Button mod="primary raised wide"
-                    onClick={this.handleClick}
-                    disabled={inProgress}>
-              Login
-            </Button>
+            {inProgress
+              ? <Spinner />
+              : <Button mod="login" onClick={this.handleClick}>Login</Button>
+            }
           </div>
-          <footer className="mdl-card__supporting-text">
-            <small>We do not store information about you or pass it to someone else</small>
+          <footer className="mdl-card__text-block mdl-card__supporting-text">
+            <p>
+              <small>We do not store information about you or pass it to someone else</small>
+            </p>
           </footer>
         </section>
 

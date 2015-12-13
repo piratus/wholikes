@@ -1,0 +1,29 @@
+/*
+  Material Design Lite variables overrides
+*/
+
+@import "mdl-colors";
+@import "../variables";
+
+$trim-color-classes: true;
+$styleguide-generate-template: false;
+
+
+$color-primary: $palette-blue-700;
+$color-primary-dark: $palette-blue-900;
+$color-accent: $palette-orange-900;
+
+// Our primary is dark, so use $color-dark-contrast for overlaid text.
+$color-primary-contrast: $color-dark-contrast;
+// Our accent is dark, so use $color-dark-contrast for overlaid text.
+$color-accent-contrast: $color-dark-contrast;
+
+
+$layout-text-color: rgba(255, 255, 255, .6);
+
+
+// Header
+$layout-header-bg-color: $ui-color-dark-blue;
+$layout-header-text-color: rgba(255,255,255,.6);
+$layout-header-nav-hover-color: $ui-color-dark-blue;
+$layout-header-tab-text-color: unquote("rgba(#{$color-primary-contrast}, 0.6)");

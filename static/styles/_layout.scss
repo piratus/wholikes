@@ -1,7 +1,10 @@
+@import 'mixins';
+@import 'variables';
+
+
 .application {
   @extend .mdl-layout;
   @extend .mdl-layout--fixed-header;
-  //@extend .mdl-layout--fixed-drawer;
 
   @at-root &__header { @extend .mdl-layout__header; }
   @at-root &__header-row { @extend .mdl-layout__header-row; }
@@ -9,9 +12,15 @@
 
   @at-root &__title { @extend .mdl-layout__title; }
 
-  .mdl-button--application-drawer {
+  @at-root &__drawer-button {
     @extend .mdl-layout__drawer-button;
-    line-height: 1.7;
+
+    appearance: none;
+    line-height: 1.7 !important;
+
+    &:focus {
+      outline: none;
+    }
   }
 
   @at-root &__obfuscator { @extend .mdl-layout__obfuscator; }

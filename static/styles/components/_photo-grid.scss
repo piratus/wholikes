@@ -1,0 +1,104 @@
+@import 'mdl/material';
+@import 'mixins';
+
+$margin: 2px;
+$spacer: 14px !default;
+
+$item-info-color: whitesmoke !default;
+$item-info-bg: rgba(0, 0, 0, .7) !default;
+$selected-item-info-color: unquote("rgb(#{$color-accent})") !default;
+$selected-border-color: unquote("rgb(#{$color-accent})") !default;
+
+.ui-photo-grid {
+  @extend .mdl-grid;
+  @include clearfix();
+
+  box-sizing: border-box;
+  min-width: 302px;
+  padding: 16px - $margin;
+
+  @at-root &__item {
+    position: relative;
+    margin: $margin;
+
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+
+    color: $item-info-color;
+    outline: 2px solid transparent;
+    transition:
+      color .2s ease-in-out,
+      outline-color .2s ease-in-out;
+
+    &.is-selected {
+      @include shadow-8dp();
+      color: $selected-item-info-color;
+      outline-color: $selected-border-color;
+    }
+
+    @media screen and (max-device-width: 788px) {
+      width: calc(20vw - 10px);
+      height: calc(20vw - 10px);
+    }
+
+    @media screen and (max-device-width: 502px) {
+      width: calc(25vw - 11px);
+      height: calc(25vw - 11px);
+    }
+
+    @media screen and (max-device-width: 402px) {
+      width: calc(33.33vw - 14px);
+      height: calc(33.33vw - 14px);
+    }
+
+    @media screen and (max-device-width: 302px) {
+      width: calc(50vw - 18px);
+      height: calc(50vw - 18px);
+    }
+  }
+
+  @at-root &__image {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  @at-root &__item-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    text-align: right;
+    padding: .25em .5em;
+
+    font-family: $preferred_font;
+    font-weight: 500;
+    font-size: 14px;
+
+    background: $item-info-bg;
+    color: inherit;
+
+    .icon {
+      margin-right: .5em;
+    }
+  }
+
+  @at-root &__footer {
+    clear: both;
+    display: block;
+    width: 100%;
+    padding-top: 14px;
+    text-align: center;
+  }
+
+}
+
+
+.ui-photo {
+  position: relative;
+
+}

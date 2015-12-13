@@ -6,12 +6,14 @@ export const LOGOUT = 'LOGOUT'
 
 
 export function login() {
+  window.location = window.APP_SETTINGS.REDIRECT_URL
   return {
     type: LOGIN,
   }
 }
 
 export function logout() {
+  window.location = '/logout/'
   return {
     type: LOGOUT,
   }
@@ -53,10 +55,19 @@ export const FETCH_PHOTOS_SUCCESS = 'FETCH_PHOTOS_SUCCESS'
 export const FETCH_PHOTOS_FAIL = 'FETCH_PHOTOS_FAIL'
 
 export function fetchPhotos(userId = 'self') {
-  return {
-    [API_CALL]: {
-      url: `/users/${userId}/media/recent/`,
-      types: [FETCH_PHOTOS, FETCH_PHOTOS_SUCCESS, FETCH_PHOTOS_FAIL],
-    },
+  return (dispatch, getState)=> {
+    const {photos} = getState()
+    let params
+    if (photos && photos.maxId) {
+      params = {maxId: photos.maxId}
+    }
+    return dispatch({
+      [API_CALL]: {
+        url: `/users/${userId}/media/recent/`,
+        types: [FETCH_PHOTOS, FETCH_PHOTOS_SUCCESS, FETCH_PHOTOS_FAIL],
+        params,
+      },
+    })
   }
+
 }
