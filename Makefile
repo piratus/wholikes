@@ -1,5 +1,5 @@
 DIST_DIR ?= static/dist
-VIRTUAL_ENV ?= env
+VIRTUAL_ENV ?= ~/.virtualenvs/who
 NODE_ENV ?= development
 WEBPACK_OPTIONS ?= --progress --colors
 
@@ -7,13 +7,8 @@ PIP = $(VIRTUAL_ENV)/bin/pip
 PYTHON = $(VIRTUAL_ENV)/bin/python
 NODE = $(shell npm bin)
 
-CURL ?= curl --silent --show-error --fail
-OPEN_BROWSER ?= open -a 'Google Chrome'
-FONTELLO_DIR ?= ./static/styles/fontello
-FONTELLO_HOST ?= http://fontello.com
 
-
-.PHONY: build clean install watch devserver static fontopen fontsave
+.PHONY: build clean install watch devserver static
 
 build: install static
 
@@ -29,6 +24,7 @@ env: requirements.txt
 
 node_modules: package.json
 	npm install
+	rm -f ./node_modules/react-icons/.babelrc
 
 install: env node_modules
 

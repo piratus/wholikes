@@ -1,8 +1,6 @@
-import React from 'react'
-import {Flux} from 'minimal-flux'
+import {PropTypes} from 'react'
 
 
 export default {
-  flux: React.PropTypes.instanceOf(Flux),
-  actions: React.PropTypes.object
+  actions: PropTypes.object,
 }

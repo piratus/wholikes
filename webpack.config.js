@@ -43,8 +43,8 @@ module.exports = {
   },
 
   resolve: {
-    root: path.join(__dirname, 'static/js'),
     extensions: ['', '.js'],
+    root: path.join(__dirname, 'static/js'),
   },
 
   plugins: PLUGINS.concat(DEBUG ? PLUGINS_DEV : PLUGINS_PROD),
@@ -55,13 +55,9 @@ module.exports = {
         test: /\.js$/,
         include: [
           path.join(__dirname, 'static/js'),
-          //path.join(__dirname, 'node_modules/react-icons'),
+          path.join(__dirname, 'node_modules/react-icons'),
         ],
         loader: (DEBUG ? 'react-hot!' : '') + 'babel?cacheDirectory',
-      },
-      {
-        test: /\.sass$/,
-        loader: 'style!css!autoprefixer!sass?sourceMap&indentedSyntax&includePaths[]=./static/styles',
       },
       {
         test: /\.scss$/,
