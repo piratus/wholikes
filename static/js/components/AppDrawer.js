@@ -1,31 +1,28 @@
 import cx from 'classnames'
-import React, {Component, PropTypes} from 'react'
+import React, {PropTypes} from 'react'
+
+import {prevent} from '../utils'
 
 
-class AppDrawer extends Component {
+export const AppDrawer = ({children, open})=>
+  <aside className={cx('app-drawer', {'is-visible': open})}>
+    {children}
+  </aside>
 
-  static propTypes = {
-    title: PropTypes.node.isRequired,
-    open: PropTypes.bool.isRequired,
-    children: PropTypes.node,
-  }
-
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    const cls = cx('application-drawer', {
-      'is-visible': this.props.open,
-    })
-    return (
-      <div className={cls}>
-        <span className="application-drawer__title">{this.props.title}</span>
-        {this.props.children}
-      </div>
-    )
-  }
+AppDrawer.propTypes = {
+  open: PropTypes.bool.isRequired,
+  children: PropTypes.node.isRequired,
 }
 
 
-export default AppDrawer
+export const AppDrawerButton = ({children, onClick, ...otherProps})=>
+  <button {...otherProps} className="app-drawer-button"
+          onClick={prevent(onClick)}>
+    {children}
+  </button>
+
+
+AppDrawerButton.propTypes = {
+  children: PropTypes.node.isRequired,
+  onClick: PropTypes.func.isRequired,
+}

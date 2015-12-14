@@ -25,14 +25,11 @@ class LoginView extends Component {
     const {error, inProgress} = this.props
 
     return (
-      <div className="mdl-layout .login-card">
+      <main className="app-login-form">
 
         {error && <div className="mdl-alert">{error}</div>}
 
         <section className="mdl-card mdl-card--login">
-          <header className="mdl-card__title">
-            <h1 className="mdl-card__title-text"> </h1>
-          </header>
           <div className="mdl-card__text-block">
             <p className="text--lead">See who likes your Instagram photos the most</p>
           </div>
@@ -43,13 +40,13 @@ class LoginView extends Component {
             }
           </div>
           <footer className="mdl-card__text-block mdl-card__supporting-text">
-            <p>
-              <small>We do not store information about you or pass it to someone else</small>
+            <p className="text-small">
+              We do not store information about you or pass it to someone else
             </p>
           </footer>
         </section>
 
-      </div>
+      </main>
     )
   }
 }

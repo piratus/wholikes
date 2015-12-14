@@ -27,3 +27,7 @@
   @at-root &__content { @extend .mdl-layout__content; }
 }
 
+.application.application__obfuscator {
+  background: rgba(255, 255, 255, .5) !important;
+}
+

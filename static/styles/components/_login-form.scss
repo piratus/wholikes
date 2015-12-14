@@ -1,19 +1,25 @@
 @import "../mixins";
 
 
+.app-login-form {
+  display: flex;
+  flex-flow: column nowrap;
+
+  box-sizing: border-box;
+  height: 100%;
+  padding: 16px;
+  overflow: hidden;
+}
+
 .mdl-card--login {
   box-sizing: border-box;
   max-width: 20em;
-  margin: 5em auto;
-  padding: 1em 1em 0;
+  margin: auto;
+  padding: 2em 1em 1em;
 
   @include shadow-4dp();
 
   text-align: center;
-
-  .mdl-card__title {
-    justify-content: center;
-  }
 
   .mdl-button--login {
     @extend .mdl-button--raised;

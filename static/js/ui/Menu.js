@@ -1,10 +1,13 @@
 import cx from 'classnames'
 import React, {Component, PropTypes} from 'react'
 
+import {mods} from '../utils'
+
 
 class Menu extends Component {
 
   static propTypes = {
+    mod: PropTypes.string,
     children: PropTypes.node.isRequired,
   }
 
@@ -14,7 +17,7 @@ class Menu extends Component {
 
   render() {
     return (
-      <nav className="ui-menu">
+      <nav className={mods('ui-menu', this.props.mod)}>
         {this.props.children}
       </nav>
     )
@@ -28,7 +31,6 @@ export class MenuLink extends Component {
 
   static propTypes = {
     active: PropTypes.bool,
-    className: PropTypes.string,
     children: PropTypes.node.isRequired,
     onClick: PropTypes.func.isRequired,
   }
@@ -43,9 +45,7 @@ export class MenuLink extends Component {
   }
 
   render() {
-    const {active, className} = this.props
-    const cls = cx('ui-menu__link', className, {'is-active': active})
-
+    const cls = cx('ui-menu__link', {'is-active': this.props.active})
     return <a className={cls} href="#" onClick={this.handleClick}>
       {this.props.children}
     </a>

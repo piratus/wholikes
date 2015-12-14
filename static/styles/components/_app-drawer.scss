@@ -2,9 +2,7 @@
 @import '../variables';
 
 
-
-
-.application-drawer {
+.app-drawer {
   display: flex;
   flex-flow: column nowrap;
 
@@ -16,11 +14,10 @@
   top: 0;
   left: 0;
 
-  box-sizing: border-box;
   border-right: 1px solid $app-drawer-border-color;
   background: $app-drawer-bg-color;
 
-  @include shadow-4dp();
+  @include shadow-16dp();
 
   // Transform offscreen.
   transform: translateX(-$app-drawer-width - 10px);
@@ -34,6 +31,7 @@
 
   overflow: visible;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 
   z-index: 5;
 
@@ -44,49 +42,116 @@
     }
   }
 
-  @media screen and (min-width: $layout-screen-size-threshold + 1px) {
-    .application--fixed-drawer > & {
-      transform: translateX(0);
-    }
-  }
-
   @at-root &__title {
-    display: block;
-    position: relative;
+    display: flex;
+    flex-flow: column nowrap;
 
     @include typo-title();
     font-weight: 400;
-    box-sizing: border-box;
 
-    line-height: $app-header-height-desktop;
-    padding-left: $app-header-indent-desktop;
+    padding: 16px $app-header-indent-desktop;
+
+    background: $ui-color-darkest-blue;
 
     @media screen and (max-width: $layout-screen-size-threshold) {
-      line-height: $app-header-height-mobile;
-      padding-left: $app-header-indent-mobile;
-    }
-
-    .icon {
-      color: $heart-color;
-      opacity: .5;
+      padding: 16px $app-header-indent-mobile;
     }
   }
 
-  > .ui-menu {
+  .user-info {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+
+    margin-bottom: 16px;
+
+    &__picture {
+      @include box(75px);
+      border-radius: 100em;
+      box-shadow: 0 0 0 3px rgba(225, 235, 255, .7);
+
+      margin: 3px 16px 3px 3px;
+    }
+
+    &__label {
+      display: flex;
+      flex-flow: column nowrap;
+    }
+
+    &__name {
+      @include typo-title();
+    }
+
+    &__username {
+      font-weight: 400;
+      font-size: .6em;
+    }
+  }
+
+  .user-stats {
+    display: flex;
+    flex-flow: row nowrap;
+    align-self: stretch;
+    justify-content: space-between;
+
+    background: $ui-color-darkest-blue;
+
+    .user-stats__item {
+      @include typo-title();
+
+      display: inline-flex;
+      flex-flow: column nowrap;
+
+      text-align: center;
+    }
+
+    .user-stats__label {
+      @include typo-display-3();
+      font-size: .6em;
+    }
+  }
+
+  > .app-drawer-button {
+    position: absolute;
+    top: 16px;
+    right: $app-header-indent-desktop;
+
+    @media screen and (max-width: $layout-screen-size-threshold) {
+      right: $app-header-indent-mobile;
+    }
+  }
+
+  @at-root &__spacer {
     flex-grow: 1;
   }
+
 }
 
+
+.app-drawer-button {
+  width: 32px;
+  height: 32px;
+
+  appearance: none;
+  color: $app-drawer-color;
+  background: transparent;
+
+  border: none;
+  outline: none;
+
+  &:focus,
+  &:active {
+    outline: none;
+  }
+}
 
 // FIXME: This does not belong here
 .ui-menu {
   box-sizing: border-box;
 
   display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
+  flex-flow: column nowrap;
   align-items: stretch;
-  justify-content: space-between;
 
   @at-root &__link {
     text-decoration: none;
@@ -110,7 +175,11 @@
     }
 
     > .icon {
-      margin-right: 1em;
+      margin-right: $app-header-indent-desktop;
+
+      @media screen and (max-width: $layout-screen-size-threshold) {
+        margin-right: $app-header-indent-mobile;
+      }
     }
 
     &.is-active {
@@ -120,7 +189,5 @@
 
   }
 
-  @at-root &__spacer {
-    flex-grow: 1;
   }
 }

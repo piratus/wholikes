@@ -1,14 +1,13 @@
-import cx from 'classnames'
 import React, {Component, PropTypes} from 'react'
 
-import IconHeart from 'react-icons/md/favorite'
+import IconLeft from 'react-icons/md/chevron-left'
 import IconPhotos from 'react-icons/md/photo-library'
 import IconPeople from 'react-icons/md/people'
 import IconQuit from 'react-icons/md/power-settings-new'
 
-import AppDrawer from './AppDrawer'
+import {AppDrawer, AppDrawerButton} from './AppDrawer'
 import AppHeader from './AppHeader'
-import Menu, {MenuLink, MenuSpacer} from '../ui/Menu'
+import Menu, {MenuLink} from '../ui/Menu'
 import PhotoGrid from './PhotoGrid'
 import {noop} from '../utils'
 
@@ -18,10 +17,35 @@ const Overlay = ({open, onClick})=>
        onClick={onClick} />
 
 
-const Title = ()=>
-  <span>
-    <IconHeart size="2em" className="icon" /> Who Likes
-  </span>
+const UserProfile = ({username, profilePicture, fullName, counts})=>
+  <header className="app-drawer__title">
+    <section className="user-info">
+      <img className="user-info__picture" src={profilePicture} />
+      <div className="user-info__label">
+        <span className="user-info__name">{fullName}</span>
+        <small className="user-info__username">{`@${username}`}</small>
+      </div>
+    </section>
+
+    {counts &&
+      <section className="user-stats">
+        <div className="user-stats__item">
+          <span className="user-stats__label">posts</span>
+          <span className="user-stats__value">{counts.media}</span>
+        </div>
+
+        <div className="user-stats__item">
+          <span className="user-stats__label">follows</span>
+          <span className="user-stats__value">{counts.follows}</span>
+        </div>
+
+        <div className="user-stats__item">
+          <span className="user-stats__label">followed by</span>
+          <span className="user-stats__value">{counts.followedBy}</span>
+        </div>
+      </section>
+    }
+  </header>
 
 
 class Application extends Component {
@@ -57,21 +81,29 @@ class Application extends Component {
 
     return (
       <div className="application">
-        <AppHeader title={self.username} onMenuClick={this.handleDrawer} />
+        <AppHeader title="Photos" onMenuClick={this.handleDrawer} />
 
-        <AppDrawer title={<Title />} open={drawerOpen}>
-          <Menu>
+        <AppDrawer open={drawerOpen}>
+          <AppDrawerButton onClick={this.handleDrawer}>
+            <IconLeft size="2em" className="icon" />
+          </AppDrawerButton>
+
+          <UserProfile {...self} />
+
+          <Menu mod="drawer">
             <MenuLink active onClick={noop}>
-              <IconPhotos className="icon" size="2em" /> Photos
+              <IconPhotos className="icon" size="2em" />Photos
             </MenuLink>
             <MenuLink onClick={noop}>
-              <IconPeople className="icon" size="2em" /> People
+              <IconPeople className="icon" size="2em" />People
             </MenuLink>
+          </Menu>
 
-            <MenuSpacer />
+          <div className="app-drawer__spacer" />
 
+          <Menu mod="drawer drawer-bottom">
             <MenuLink onClick={actions.logout}>
-              <IconQuit className="icon" size="2em" /> Exit
+              <IconQuit className="icon" size="2em" />Exit
             </MenuLink>
           </Menu>
         </AppDrawer>

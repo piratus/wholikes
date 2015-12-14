@@ -1,3 +1,4 @@
+@import "mixins";
 @import "variables";
 
 @import "mdl/material";
@@ -28,10 +29,17 @@ html, body, #root {
   @at-root &__text-block {
     padding: 0 1em;
     margin-bottom: 1em;
+
+    :last-child {
+      margin-bottom: 0;
+    }
   }
 
-  @at-root &__actions--right > * {
-    float: right;
+  @at-root &__supporting-text {
+    p {
+      font-size: 12px;
+      line-height: 1.2;
+    }
   }
 }
 
@@ -43,4 +51,3 @@ html, body, #root {
   color: unquote("rgb(#{$color-dark-contrast})");
   background-color: unquote("rgb(#{$palette-red-500})");
 }
-
