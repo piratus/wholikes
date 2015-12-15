@@ -35,12 +35,12 @@ class LoginView extends Component {
           </div>
           <div className="mdl-card__text-block">
             {inProgress
-              ? <Spinner />
+              ? <Spinner mod="colored" size="36px" />
               : <Button mod="login" onClick={this.handleClick}>Login</Button>
             }
           </div>
-          <footer className="mdl-card__text-block mdl-card__supporting-text">
-            <p className="text-small">
+          <footer className="mdl-card__text-block">
+            <p className="text--small">
               We do not store information about you or pass it to someone else
             </p>
           </footer>

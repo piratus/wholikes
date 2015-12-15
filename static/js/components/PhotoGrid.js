@@ -70,7 +70,7 @@ class PhotoGrid extends Component {
         )}
         <footer className="ui-photo-grid__footer">
           {inProgress
-            ? <Spinner />
+            ? <Spinner size="36px" mod="flat" />
             : <Button onClick={this.handleFetchMore} mod="raised accent">
                 Load more
               </Button>

@@ -1,5 +1,5 @@
-@import 'mdl/material';
-@import 'mixins';
+@import "../mdl/material";
+@import "../mixins";
 
 $margin: 2px;
 $spacer: 14px !default;
@@ -11,7 +11,7 @@ $selected-border-color: unquote("rgb(#{$color-accent})") !default;
 
 .ui-photo-grid {
   @extend .mdl-grid;
-  @include clearfix();
+  @extend %clearfix;
 
   box-sizing: border-box;
   min-width: 302px;

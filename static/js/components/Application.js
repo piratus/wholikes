@@ -30,18 +30,18 @@ const UserProfile = ({username, profilePicture, fullName, counts})=>
     {counts &&
       <section className="user-stats">
         <div className="user-stats__item">
-          <span className="user-stats__label">posts</span>
           <span className="user-stats__value">{counts.media}</span>
+          <span className="user-stats__label">Posts</span>
         </div>
 
         <div className="user-stats__item">
-          <span className="user-stats__label">follows</span>
           <span className="user-stats__value">{counts.follows}</span>
+          <span className="user-stats__label">Following</span>
         </div>
 
         <div className="user-stats__item">
-          <span className="user-stats__label">followed by</span>
           <span className="user-stats__value">{counts.followedBy}</span>
+          <span className="user-stats__label">Followers</span>
         </div>
       </section>
     }

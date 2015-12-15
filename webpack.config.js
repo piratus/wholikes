@@ -9,7 +9,11 @@ const DEBUG = process.env.NODE_ENV !== 'production'
 
 const PLUGINS = [
   new webpack.NoErrorsPlugin(),
-  new WebpackNotifierPlugin({name: 'WhoLikes', alwaysNotify: true}),
+  new WebpackNotifierPlugin({
+    title: 'Who Likes',
+    contentImage: './static/favicon/heart@192.png',
+    alwaysNotify: true,
+  }),
 ]
 
 const PLUGINS_DEV = []

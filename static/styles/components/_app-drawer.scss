@@ -1,5 +1,6 @@
 @import '../mixins';
 @import '../variables';
+@import '../type';
 
 
 .app-drawer {
@@ -46,8 +47,7 @@
     display: flex;
     flex-flow: column nowrap;
 
-    @include typo-title();
-    font-weight: 400;
+    @extend %text-title;
 
     padding: 16px $app-header-indent-desktop;
 
@@ -66,8 +66,7 @@
     margin-bottom: 16px;
 
     &__picture {
-      @include box(75px);
-      border-radius: 100em;
+      @include circle(75px);
       box-shadow: 0 0 0 3px rgba(225, 235, 255, .7);
 
       margin: 3px 16px 3px 3px;
@@ -79,12 +78,11 @@
     }
 
     &__name {
-      @include typo-title();
+      @extend %text-title;
     }
 
     &__username {
-      font-weight: 400;
-      font-size: .6em;
+      @extend %text-small;
     }
   }
 
@@ -97,7 +95,7 @@
     background: $ui-color-darkest-blue;
 
     .user-stats__item {
-      @include typo-title();
+      @extend %text-title;
 
       display: inline-flex;
       flex-flow: column nowrap;
@@ -106,8 +104,7 @@
     }
 
     .user-stats__label {
-      @include typo-display-3();
-      font-size: .6em;
+      @extend %text-small;
     }
   }
 
@@ -129,8 +126,7 @@
 
 
 .app-drawer-button {
-  width: 32px;
-  height: 32px;
+  @include box(32px);
 
   appearance: none;
   color: $app-drawer-color;
@@ -186,8 +182,6 @@
       background-color: $app-drawer-menu-link-active-background;
       color: $app-drawer-menu-link-active-color;
     }
-
-  }
 
   }
 }

@@ -1,10 +1,14 @@
-@import '../../node_modules/material-design-lite/src/mixins';
+@import "../../node_modules/material-design-lite/src/mixins";
+@import "variables";
+
+
 
 @mixin text-shadow() {
   text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3);
 }
 
-@mixin clearfix() {
+
+%clearfix {
   &:before,
   &:after {
       content: " ";
@@ -16,7 +20,39 @@
   }
 }
 
-@mixin box($size) {
+
+@mixin box($size, $radius: 0) {
   width: $size;
   height: $size;
+
+  @if ($radius != 0) {
+    border-radius: $radius;
+  }
 }
+
+@mixin circle($size) {
+  @include box($size, $size);
+}
+
+
+@mixin mobile($width: $app-mobile-threshold) {
+  @media screen and (max-width: $width) {
+    @content;
+  }
+}
+
+@mixin desktop() {
+  @media screen and (min-width: $app-mobile-threshold + 1) {
+    @content;
+  }
+}
+
+
+@mixin responsive($attrName, $desktopValue, $mobileValue) {
+  #{$attrName}: $desktopValue;
+
+  @include mobile() {
+    #{$attrName}: $mobileValue;
+  }
+}
+

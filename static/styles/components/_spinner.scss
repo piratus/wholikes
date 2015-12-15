@@ -1,41 +1,80 @@
 @import "../variables";
+@import "../mixins";
 
 
-$ui-spinner-item-color: $ui-color-orange !default;
-$ui-spinner-item-size: 18px !default;
-$ui-spinner-item-margin: 1px 3px !default;
+$ui-spinner-size: 1em !default;
+$ui-spinner-speed: 1.5s !default;
 
-$ui-spinner-animation-delay: 0.16s !default;
-$ui-spinner-animation-duration: 1.4s !default;
-
-
-@keyframes ui-spinner-bounce {
-  0%, 80%, 100% {
-    transform: scale(0);
-  } 40% {
-      transform: scale(1.0);
-    }
-}
+$ui-spinner-color-1: #d62d20 !default;
+$ui-spinner-color-2: #0057e7 !default;
+$ui-spinner-color-3: #008744 !default;
+$ui-spinner-color-4: #ffa700 !default;
 
 
 .ui-spinner {
-  text-align: center;
-  font-size: 0;
-  height: $ui-spinner-item-size;
+  display: inline-block;
+  line-height: 1;
 
-  @for $index from 1 to 5 {
-    .ui-spinner__item--#{$index} {
-      display: inline-block;
-      animation: ui-spinner-bounce $ui-spinner-animation-duration infinite ease-in-out both;
-      animation-delay: $ui-spinner-animation-delay * ($index - 1);
+  @include box($ui-spinner-size);
 
-      margin: $ui-spinner-item-margin;
+  animation: rotate 2s linear infinite;
+  transform-origin: center center;
 
-      width: $ui-spinner-item-size;
-      height: $ui-spinner-item-size;
-      border-radius: $ui-spinner-item-size;
+  @at-root &__circle {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+    animation: dash 1.5s ease-in-out infinite;
+    stroke-linecap: round;
+  }
 
-      background-color: $ui-spinner-item-color;
+  @at-root &--flat {
+    > .ui-spinner__circle {
+      stroke: $ui-color-orange;
     }
+  }
+
+  @at-root &--colored {
+    > .ui-spinner__circle {
+      animation:
+        dash 1.5s ease-in-out infinite,
+        color 6s ease-in-out infinite;
+      stroke: initial;
+    }
+  }
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -35px;
+  }
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -124px;
+  }
+}
+
+@keyframes color {
+  100%, 0% {
+    stroke: $ui-spinner-color-1;
+  }
+  40% {
+    stroke: $ui-spinner-color-2;
+  }
+  66% {
+    stroke: $ui-spinner-color-3;
+  }
+  80%, 90% {
+    stroke: $ui-spinner-color-4;
   }
 }
