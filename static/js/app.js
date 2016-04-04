@@ -15,7 +15,7 @@ const {accessToken, error} = window.APP_SETTINGS
 if (!accessToken) {
   React.render(
     <LoginView error={error} />,
-    document.body
+    document.getElementById('root')
   )
 }
 else {
@@ -25,6 +25,6 @@ else {
 
   React.render(
     <Application flux={flux} error={error} />,
-    document.body
+    document.getElementById('root')
   )
 }

@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block body %}
+  <div id="root"></div>
   <script type="text/javascript">
     var APP_SETTINGS = {
       {%- if access_token %}accessToken: {{ access_token|tojson|safe }},{% endif -%}
