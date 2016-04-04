@@ -15,6 +15,7 @@ $selected-border-color: unquote("rgb(#{$color-accent})") !default;
 
   box-sizing: border-box;
   min-width: 302px;
+  max-width: 840px;
   padding: 16px - $margin;
 
   @at-root &__item {
@@ -37,24 +38,20 @@ $selected-border-color: unquote("rgb(#{$color-accent})") !default;
       outline-color: $selected-border-color;
     }
 
-    @media screen and (max-device-width: 788px) {
-      width: calc(20vw - 10px);
-      height: calc(20vw - 10px);
+    @media screen and (max-width: 788px) {
+      @include box(calc(20vw - 10px));
     }
 
-    @media screen and (max-device-width: 502px) {
-      width: calc(25vw - 11px);
-      height: calc(25vw - 11px);
+    @media screen and (max-width: 502px) {
+      @include box(calc(25vw - 11px));
     }
 
-    @media screen and (max-device-width: 402px) {
-      width: calc(33.33vw - 14px);
-      height: calc(33.33vw - 14px);
+    @media screen and (max-width: 402px) {
+      @include box(calc(33.33vw - 14px));
     }
 
-    @media screen and (max-device-width: 302px) {
-      width: calc(50vw - 18px);
-      height: calc(50vw - 18px);
+    @media screen and (max-width: 302px) {
+      @include box(calc(50vw - 18px));
     }
   }
 

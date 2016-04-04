@@ -1,5 +1,5 @@
 import cx from 'classnames'
-import React, {PropTypes} from 'react'
+import React, {Component, PropTypes} from 'react'
 
 import {prevent} from '../utils'
 
@@ -7,18 +7,41 @@ import {prevent} from '../utils'
 /**
  * @param {*} children
  * @param {boolean} open
+ * @param {function} onClose
  * @constructor
  */
-export const AppDrawer = ({children, open})=>
-  <aside className={cx('app-drawer', {'is-visible': open})}>
-    {children}
-  </aside>
+class AppDrawer extends Component {
 
-AppDrawer.propTypes = {
-  open: PropTypes.bool.isRequired,
-  children: PropTypes.node.isRequired,
+  static propTypes = {
+    open: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
+    children: PropTypes.node.isRequired,
+  }
+
+  constructor(props) {
+    super(props)
+  }
+
+  handleClick = (event)=> {
+    if (event.isDefaultPrevented()) {
+      this.props.onClose(event)
+    }
+  }
+
+  render() {
+    const {children, open} = this.props
+
+    return (
+      <aside className={cx('app-drawer', {'is-visible': open})}
+             onClick={this.handleClick}>
+        {children}
+      </aside>
+    )
+  }
 }
 
+
+export default AppDrawer
 
 /**
  * @param {*} children

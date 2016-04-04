@@ -31,14 +31,11 @@ class AppHeader extends Component {
     const {title, spacer, children} = this.props
     return (
       <header className="application__header">
-        <Button className="application__drawer-button"
-                onClick={this.handleMenuClick}>
-          <MenuIcon className="application__drawer-button-icon" />
-        </Button>
+        {children}
         <div className="application__header-row">
           {title && <div className="application__title">{title}</div>}
           {spacer && <div className="application__header-spacer" />}
-          {children}
+
         </div>
       </header>
 

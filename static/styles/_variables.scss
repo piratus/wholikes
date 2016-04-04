@@ -9,9 +9,9 @@ $app-font-family: 'Roboto', Helvetica, Arial, sans-serif;
 // Colors
 $ui-color-dark: rgb(13, 15, 33);
 
-$ui-color-blue: $mdl-color-indigo-700;
-$ui-color-darker-blue: $mdl-color-indigo-800;
-$ui-color-dark-blue: darken($ui-color-darker-blue, 15%);
+$ui-color-blue: $mdl-color-blue-700;
+$ui-color-darker-blue: $mdl-color-blue-800;
+$ui-color-dark-blue: $mdl-color-blue-900;
 $ui-color-darkest-blue: darken($ui-color-dark-blue, 10%);
 
 $ui-color-orange: $mdl-color-orange-900;
@@ -21,22 +21,22 @@ $heart-color: rgba(255, 255, 255, .5);
 
 
 // Header
-$app-header-height-desktop: 64px;
+$app-header-height-desktop: 56px;
 $app-header-indent-desktop: 40px;
 
-$app-header-height-mobile: 56px;
+$app-header-height-mobile: 48px;
 $app-header-indent-mobile: 16px;
 
 
 // Drawer
 $app-drawer-width: 300px;
 
-$app-drawer-color: rgba(255, 255, 255, .7);
+$app-drawer-color: $mdl-color-blue-100;
 $app-drawer-bg-color: $ui-color-blue;
-$app-drawer-border-color: darken($ui-color-dark-blue, 15%);
+$app-drawer-border-color: $ui-color-darkest-blue;
 
 $app-drawer-menu-font-size: 14px;
 $app-drawer-menu-color: $app-drawer-color;
-$app-drawer-menu-link-active-background: $ui-color-dark-blue;
+$app-drawer-menu-link-active-background: $ui-color-darker-blue;
 $app-drawer-menu-link-active-color: $app-drawer-menu-color;
 

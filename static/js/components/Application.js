@@ -1,11 +1,12 @@
 import React, {Component, PropTypes} from 'react'
 
 import IconLeft from 'react-icons/md/chevron-left'
+import IconMenu from 'react-icons/md/menu'
 import IconPhotos from 'react-icons/md/photo-library'
 import IconPeople from 'react-icons/md/people'
 import IconQuit from 'react-icons/md/power-settings-new'
 
-import {AppDrawer, AppDrawerButton} from './AppDrawer'
+import AppDrawer, {AppDrawerButton} from './AppDrawer'
 import AppHeader from './AppHeader'
 import Menu, {MenuLink} from '../ui/Menu'
 import PhotoGrid from './PhotoGrid'
@@ -67,7 +68,7 @@ class Application extends Component {
   }
 
   handleDrawer = (event)=> {
-    event.preventDefault()
+    event.stopPropagation()
     this.setState({drawerOpen: !this.state.drawerOpen})
   }
 
@@ -81,9 +82,13 @@ class Application extends Component {
 
     return (
       <div className="application">
-        <AppHeader title="Photos" onMenuClick={this.handleDrawer} />
+        <AppHeader title="Photos">
+          <AppDrawerButton onClick={this.handleDrawer}>
+            <IconMenu size="2em" className="icon" />
+          </AppDrawerButton>
+        </AppHeader>
 
-        <AppDrawer open={drawerOpen}>
+        <AppDrawer open={drawerOpen} onClose={this.handleDrawer} >
           <AppDrawerButton onClick={this.handleDrawer}>
             <IconLeft size="2em" className="icon" />
           </AppDrawerButton>

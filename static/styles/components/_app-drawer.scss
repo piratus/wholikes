@@ -3,6 +3,14 @@
 @import '../type';
 
 
+%app-drawer-text-shadow {
+  $shadow-color: rgba(0, 0, 0, .5);
+
+  text-shadow: 1px 1px 1px $shadow-color;
+  svg.icon { filter: drop-shadow(1px 1px 1px $shadow-color); }
+
+}
+
 .app-drawer {
   display: flex;
   flex-flow: column nowrap;
@@ -29,6 +37,7 @@
   transition-property: transform;
 
   color: $app-drawer-color;
+  @extend %app-drawer-text-shadow;
 
   overflow: visible;
   overflow-y: auto;
@@ -51,7 +60,7 @@
 
     padding: 16px $app-header-indent-desktop;
 
-    background: $ui-color-darkest-blue;
+    background: linear-gradient(135deg, $mdl-color-cyan-900, $mdl-color-blue-900, $mdl-color-indigo-900);
 
     @media screen and (max-width: $layout-screen-size-threshold) {
       padding: 16px $app-header-indent-mobile;
@@ -79,10 +88,12 @@
 
     &__name {
       @extend %text-title;
+      @extend %app-drawer-text-shadow;
     }
 
     &__username {
       @extend %text-small;
+      @extend %app-drawer-text-shadow;
     }
   }
 
@@ -92,10 +103,9 @@
     align-self: stretch;
     justify-content: space-between;
 
-    background: $ui-color-darkest-blue;
-
     .user-stats__item {
       @extend %text-title;
+      @extend %app-drawer-text-shadow;
 
       display: inline-flex;
       flex-flow: column nowrap;
@@ -105,6 +115,7 @@
 
     .user-stats__label {
       @extend %text-small;
+      @extend %app-drawer-text-shadow;
     }
   }
 
@@ -150,10 +161,9 @@
   align-items: stretch;
 
   @at-root &__link {
+    @extend %text-button;
+    text-transform: none;
     text-decoration: none;
-    font-family: $app-font-family;
-    font-weight: 500;
-    font-size: $app-drawer-menu-font-size;
     margin: 0;
 
     display: block;
@@ -171,11 +181,7 @@
     }
 
     > .icon {
-      margin-right: $app-header-indent-desktop;
-
-      @media screen and (max-width: $layout-screen-size-threshold) {
-        margin-right: $app-header-indent-mobile;
-      }
+      margin-right: 16px;
     }
 
     &.is-active {
