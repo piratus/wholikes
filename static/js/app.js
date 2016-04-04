@@ -4,7 +4,7 @@ import '../styles/app.sass'
 import React from 'react'
 
 import {client} from 'data/Client'
-import flux from 'flux'
+import flux from './flux'
 
 import Application from 'components/Application'
 import LoginView from 'components/LoginView'
@@ -21,6 +21,7 @@ if (!accessToken) {
 else {
   client.init({accessToken})
   flux.actions.users.fetchProfile()
+  flux.actions.photos.fetch()
 
   React.render(
     <Application flux={flux} error={error} />,
