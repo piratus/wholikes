@@ -24,8 +24,8 @@ clean:
 	rm -rf node_modules
 
 env: requirements.txt
-	test -d $(PYTHON_ENV) || python3 -m venv $(PYTHON_ENV)
-	$(PIP) install -r $<
+	test -d $(PYTHON_ENV) || python3.5 -m venv $(PYTHON_ENV)
+	$(PIP) install -Ur $<
 
 node_modules: package.json
 	npm install
