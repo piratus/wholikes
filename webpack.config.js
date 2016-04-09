@@ -1,6 +1,7 @@
 /* eslint-env node */
 const path = require('path')
 const webpack = require('webpack')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 
 const DEBUG = process.env.NODE_ENV !== 'production'
@@ -30,6 +31,10 @@ const PLUGINS_DEV = []
 const PLUGINS_PROD = [
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': '"production"'
+  }),
+  new ExtractTextPlugin('[name].css', {
+    allChunks: true,
+    disable: DEBUG,
   }),
   new webpack.optimize.DedupePlugin(),
   new webpack.optimize.OccurenceOrderPlugin(true),
@@ -78,11 +83,13 @@ module.exports = {
       },
       {
         test: /\.sass$/,
-        loader: 'style!css!autoprefixer!sass?indentedSyntax&includePaths[]=./static/styles'
+        loader: ExtractTextPlugin.extract('style',
+          'css!autoprefixer!sass?indentedSyntax&includePaths[]=./static/styles')
       },
       {
         test: /\.scss$/,
-        loader: 'style!css!autoprefixer!sass&includePaths[]=./static/styles'
+        loader: ExtractTextPlugin.extract('style',
+          'css!autoprefixer!sass&includePaths[]=./static/styles')
       },
       {
         test: /\.woff$/,
