@@ -1,10 +1,14 @@
 {
-  "extends": "@piratus/piratus/react",
+  "extends": "standard-react",
+  "parser": "babel-eslint",
   "env": {
+    "es6": true,
     "browser": true,
     "node": true
   },
   "rules": {
-    "semi": [2, "never"]
+    "semi": [2, "never"],
+
+    "react/jsx-indent-props": 0
   }
 }

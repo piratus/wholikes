@@ -1,7 +1,6 @@
 /* eslint-env node */
 const path = require('path')
 const webpack = require('webpack')
-const WebpackNotifierPlugin = require('webpack-notifier')
 
 
 const DEBUG = process.env.NODE_ENV !== 'production'
@@ -9,8 +8,22 @@ const DEBUG = process.env.NODE_ENV !== 'production'
 
 const PLUGINS = [
   new webpack.NoErrorsPlugin(),
-  new WebpackNotifierPlugin({name: 'WhoLikes', alwaysNotify: true})
 ]
+
+try {
+  const WebpackNotifier = require('webpack-notifier')
+
+  PLUGINS.push(
+    new WebpackNotifier({
+      title: 'WhoLikes',
+      contentImage: './static/favicon/heart@192.png',
+      alwaysNotify: true,
+    })
+  )
+}
+catch (e) {
+  // Do nothing
+}
 
 const PLUGINS_DEV = []
 
