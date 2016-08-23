@@ -32,6 +32,11 @@ def index():
     )
 
 
+@app.route('/privacy')
+def privacy():
+    return render_template('privacy.html')
+
+
 @app.route('/login/complete/')
 def login_complete():
     if 'error' in request.args:
