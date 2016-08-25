@@ -6,7 +6,7 @@
     var APP_SETTINGS = {
       {%- if access_token %}accessToken: {{ access_token|tojson|safe }},{% endif -%}
       {%- if error %}error: {{ error|tojson|safe }},{% endif -%}
-      REDIRECT_URL: 'https://api.instagram.com/oauth/authorize/?client_id={{ config.CLIENT_ID }}&redirect_uri={{ url_for('login_complete', _external=True) }}&response_type=code'}
+      '_':'_'}
   </script>
   <script src="{% if config.DEBUG %}http://localhost:7777/app.bundle.js{% else %}{{ url_for('static', filename='dist/app.bundle.js') }}{% endif %}"></script>
 {% endblock %}

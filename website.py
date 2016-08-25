@@ -1,4 +1,5 @@
 from json import JSONDecodeError
+from urllib.parse import urlencode
 
 import requests
 from flask import (
@@ -6,15 +7,16 @@ from flask import (
     redirect,
     render_template,
     request,
-    url_for,
     session,
+    url_for,
 )
 
 
 app = Flask(__name__)
 app.config.from_object('local')
 
-AUTH_TOKEN_URL = 'https://api.instagram.com/oauth/access_token'
+AUTH_URL = 'https://api.instagram.com/oauth/authorize/'
+AUTH_TOKEN_URL = 'https://api.instagram.com/oauth/access_token/'
 
 AUTH_TOKEN_REQUEST = {
     'client_id': app.config['CLIENT_ID'],
@@ -32,9 +34,20 @@ def index():
     )
 
 
-@app.route('/privacy')
+@app.route('/privacy/')
 def privacy():
     return render_template('privacy.html')
+
+
+@app.route('/login/')
+def login():
+    args = {
+        'response_type': 'code',
+        'scope': 'public_content+likes+comments+follower_list',
+        'client_id': app.config['CLIENT_ID'],
+        'redirect_uri': url_for('login_complete', _external=True),
+    }
+    return redirect('{0}?{1}'.format(AUTH_URL, urlencode(args, safe='+')))
 
 
 @app.route('/login/complete/')
