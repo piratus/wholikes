@@ -15,8 +15,8 @@ from flask import (
 app = Flask(__name__)
 app.config.from_object('local')
 
-AUTH_URL = 'https://api.instagram.com/oauth/authorize/'
-AUTH_TOKEN_URL = 'https://api.instagram.com/oauth/access_token/'
+AUTH_URL = 'https://api.instagram.com/oauth/authorize'
+AUTH_TOKEN_URL = 'https://api.instagram.com/oauth/access_token'
 
 AUTH_TOKEN_REQUEST = {
     'client_id': app.config['CLIENT_ID'],
@@ -43,7 +43,7 @@ def privacy():
 def login():
     args = {
         'response_type': 'code',
-        'scope': 'public_content+likes+comments+follower_list',
+        'scope': 'public_content+follower_list',
         'client_id': app.config['CLIENT_ID'],
         'redirect_uri': url_for('login_complete', _external=True),
     }
