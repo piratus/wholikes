@@ -1,4 +1,4 @@
-import {Store} from 'minimal-flux'
+import {Store} from 'minimal-flux-2'
 import {Record, Map} from 'immutable'
 
 import {load} from '../LocalStorage'

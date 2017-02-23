@@ -1,5 +1,5 @@
 import React from 'react'
-import {Flux} from 'minimal-flux'
+import {Flux} from 'minimal-flux-2'
 
 
 export default {

@@ -1,4 +1,4 @@
-import {Flux} from 'minimal-flux'
+import {Flux} from 'minimal-flux-2'
 
 import PhotoActions from 'data/actions/PhotoActions'
 import PhotoStore from 'data/stores/PhotoStore'
